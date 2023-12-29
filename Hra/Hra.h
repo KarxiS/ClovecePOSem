@@ -6,12 +6,19 @@
 #define CLOVECEPOSEM_HRA_H
 
 
+#include "../Objekty/Hrac.h"
+#include "../Objekty/HraciaDoska.h"
+
 class Hra {
 private:
+    int pocetHracov;
+    std::vector<Hrac> hraci;
+    HraciaDoska hraciaDoska;
+    Hrac aktualnyTah;
 
 public:
-
     void zacniHru();
+    void spravTah();
     void ukonciHru();
     void ukazVysledok();
 };
