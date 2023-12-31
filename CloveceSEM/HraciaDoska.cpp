@@ -18,9 +18,9 @@ void HraciaDoska::inicializaciaHraciehoPola() {
 
     hraciePole[5][5] = Policko();
     this->vytvorCestu(4, 10, 4, 5);
-    this->vytvorCestu(0, 6, 4, 6);
+    this->vytvorCestu(3, 6, 0, 6);
     this->vytvorCestu(0, 6, 0, 3);
-    this->vytvorCestu(0, 4, 4, 4);
+    this->vytvorCestu(1, 4, 4, 4);
     this->vytvorCestu(4, 4, 4, -1);
     this->vytvorCestu(4, 0, 7, 0);
     this->vytvorCestu(6, 0, 6, 5);
@@ -70,22 +70,8 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
         }
     }
 }
-
-void HraciaDoska::zobrazHraciePole() {
-    for (int i = 0; i < 11; ++i) {
-        for (int zvacsenieLoop = 0; zvacsenieLoop < 1; ++zvacsenieLoop) {
-            for (int j = 0; j < 11; ++j) {
-
-                std::cout <<  std::setw(2)<<hraciePole[i][j].getCislo()  << "\033[31m | \033[0m";
-            }
-            std::cout << std::endl;
-        }
-
-
-    }
-}
-
 void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd) {
+
     int smerX = (xStart < xEnd) ? 1 : -1;
     int smerY = (yStart < yEnd) ? 1 : -1;
     int pocitadloDomcek = 0;
@@ -100,5 +86,36 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd) {
         for (int x = xStart; x != xEnd + smerX; x += smerX) {
             hraciePole[yStart][x] = Policko().setZnak('X').setCislo(pocitadloDomcek++);
         }
+    }
+}
+
+void HraciaDoska::zobrazHraciePole() {
+    std::cout << "*********VypisHry**********"<<std::endl;
+    for (int i = 0; i < 11; ++i) {
+        for (int zvacsenieLoop = 0; zvacsenieLoop < 1; ++zvacsenieLoop) {
+            for (int j = 0; j < 11; ++j) {
+
+                std::cout <<  std::setw(2)<<hraciePole[i][j].getZnak()  << "\033[31m | \033[0m";
+            }
+            std::cout << std::endl;
+        }
+
+
+    }
+}
+
+
+void HraciaDoska::zobrazHraciePoleDebugCesty() {
+    std::cout << "*********Debug**********"<<std::endl;
+    for (int i = 0; i < 11; ++i) {
+        for (int zvacsenieLoop = 0; zvacsenieLoop < 1; ++zvacsenieLoop) {
+            for (int j = 0; j < 11; ++j) {
+
+                std::cout <<  std::setw(2)<<hraciePole[i][j].getCislo()  << "\033[31m | \033[0m";
+            }
+            std::cout << std::endl;
+        }
+
+
     }
 }

@@ -25,6 +25,8 @@ void Hra::zacniHru()
 		hraciaDoska.pridajHraca(hraci.at(i));
 	};
 	hraciaDoska.zobrazHraciePole();
+
+    hraciaDoska.zobrazHraciePoleDebugCesty();
 	/*
 	do {
 		this->spravTah();
