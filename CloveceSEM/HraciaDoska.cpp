@@ -76,6 +76,7 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd) {
     int smerY = (yStart < yEnd) ? 1 : -1;
     int pocitadloDomcek = 0;
     if(xStart == xEnd){
+
         // Vertikálna cesta
         for (int y = yStart; y != yEnd + smerY; y += smerY) {
             hraciePole[y][xStart] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(0,smerY);
