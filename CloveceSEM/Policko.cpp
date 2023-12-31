@@ -49,3 +49,35 @@ Policko Policko::setSpawn(int hrac) {
     this->jeDomcekSpawn=true;
     return *this;
 }
+
+Policko Policko::odomkniSmer(int smerX, int smerY) {
+    if(smerX==1){
+        this->doprava=true;
+    }
+    if(smerX==-1){
+        this->dolava=true;
+    }
+    if(smerY==1){
+        this->dole=true;
+    }
+    if(smerY==-1){
+        this->hore=true;
+    }
+    return *this;
+}
+
+bool Policko::isHore() {
+    return this->hore;
+}
+
+bool Policko::isDole() {
+    return this->dole;
+}
+
+bool Policko::isDolava() {
+    return this->dolava;
+}
+
+bool Policko::isDoprava() {
+    return this->doprava;
+}

@@ -15,7 +15,10 @@ private:
     bool jeDomcekEnd=false;
     bool jeDomcekSpawn=false;
     int hracDomcekVystup=0;
-
+    bool hore=false;
+    bool dole = false;
+    bool doprava = false;
+    bool dolava = false;
 public:
     Policko(int cislo=-1, char znak='*');
     char getZnak();
@@ -23,8 +26,12 @@ public:
     int getCislo();
     Policko setCislo(int cislo);
     Policko setSpawn(int hrac);
-
+    Policko odomkniSmer(int smerX, int smerY);
     bool isSpawnDomcek();
+    bool isHore();
+    bool isDole();
+    bool isDolava();
+    bool isDoprava();
 
     bool isEndDomcek();
 };
