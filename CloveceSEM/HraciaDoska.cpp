@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-HraciaDoska::HraciaDoska() : hraciePole(11, std::vector<char>(11)) {
+HraciaDoska::HraciaDoska() : hraciePole(11, std::vector<Policko>(11)) {
     
 }
 
@@ -11,11 +11,11 @@ void HraciaDoska::inicializaciaHraciehoPola() {
     
     for (int i = 0; i < 11; ++i) {
         for (int j = 0; j < 11; ++j) {
-            hraciePole[i][j] = '-';
+            hraciePole[i][j] = Policko();
         }
     }
 
-    hraciePole[5][5] = ' ';
+    hraciePole[5][5] = Policko();
     this->vytvorCestu(10, 4, 5, 4);
     this->vytvorCestu(6, 0, 6, 4);
     this->vytvorCestu(6, 0, 3, 0);
@@ -47,14 +47,14 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
         // Horizontálna cesta
         int krok = (noveJ > j) ? 1 : -1;
         for (int jj = j; jj != noveJ; jj += krok) {
-            hraciePole[i][jj] = ' ';
+            hraciePole[i][jj] = Policko().setZnak('-');
         }
     }
     else if (j == noveJ) {
         // Vertikálna cesta
         int krok = (noveI > i) ? 1 : -1;
         for (int ii = i; ii != noveI; ii += krok) {
-            hraciePole[ii][j] = ' ';
+            hraciePole[ii][j] = Policko().setZnak('-');
         }
     }
 }
@@ -62,7 +62,7 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
 void HraciaDoska::zobrazHraciePole() {
     for (int i = 0; i < 11; ++i) {
         for (int j = 0; j < 11; ++j) {
-            std::cout << hraciePole[i][j] << " ";
+            std::cout << hraciePole[i][j].getZnak() << " ";
         }
         std::cout << std::endl;
     }
