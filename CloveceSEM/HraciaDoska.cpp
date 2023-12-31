@@ -60,13 +60,33 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
         int krok = (noveJ > j) ? 1 : -1;
         for (int jj = j; jj != noveJ; jj += krok) {
             hraciePole[jj][i] = Policko().setZnak('-').setCislo(pocitadlo_cesta++).odomkniSmer(0,krok);
+
+            if(hraciePole[jj][i].getCislo()==19) {
+                hraciePole[jj][i].odomkniSmer(1,0);
+            }
+
+            if(hraciePole[jj][i].getCislo()==39) {
+                hraciePole[jj][i].odomkniSmer(-1,0);
+            }
+
         }
     }
     else if (j == noveJ) {
         // Horizontálna cesta
         int krok = (noveI > i) ? 1 : -1;
         for (int ii = i; ii != noveI; ii += krok) {
-            hraciePole[j][ii] = Policko().setZnak('-').setCislo(pocitadlo_cesta++).odomkniSmer(krok,0);;
+            hraciePole[j][ii] = Policko().setZnak('-').setCislo(pocitadlo_cesta++).odomkniSmer(krok,0);
+            if(hraciePole[j][ii].getCislo()==49) {
+                hraciePole[j][ii].odomkniSmer(0,-1);
+            }
+
+            if(hraciePole[j][ii].getCislo()==29) {
+                hraciePole[j][ii].odomkniSmer(0,1);
+            }
+
+
+
+
         }
     }
 }
