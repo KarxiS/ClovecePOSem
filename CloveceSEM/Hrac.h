@@ -19,6 +19,7 @@ public:
     void nastavFigurky();
     int hodKockou(Kocka kocka);                                
     void spravPosun(Figurka zvolenaFigurka, int pocetPoli);    
-    void vypisInfo();                                      
+    void vypisInfo();
+    int getId();
 };
 

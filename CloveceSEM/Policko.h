@@ -6,17 +6,21 @@
 #define CLOVECEPOSEM_POLICKO_H
 
 
+#include "Hrac.h"
+
 class Policko {
 private:
     char znakovaReprezentacia='/';
     int cislo = -1;
     bool jeDomcek;
+    int hracSpawn=0;
 public:
     Policko(int cislo=-1, char znak='*');
     char getZnak();
     Policko setZnak(char znak);
     int getCislo();
     Policko setCislo(int cislo);
+    Policko setSpawn(Hrac hrac);
 };
 
 

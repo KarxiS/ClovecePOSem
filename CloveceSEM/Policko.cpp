@@ -29,3 +29,9 @@ Policko Policko::setZnak(char znak) {
     this->znakovaReprezentacia=znak;
     return *this;
 }
+
+Policko Policko::setSpawn(Hrac hrac) {
+    this->hracSpawn=hrac.getId();
+
+    return *this;
+}

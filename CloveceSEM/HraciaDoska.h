@@ -18,6 +18,7 @@ public:
     void inicializaciaHraciehoPola();
     void pridajHraca(Hrac& hrac);
     void vytvorCestu(int i, int j, int noveI, int noveJ);
+    void vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd);
     void zobrazHraciePole();             
 };
 
