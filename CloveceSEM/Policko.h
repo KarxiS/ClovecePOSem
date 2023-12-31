@@ -12,8 +12,10 @@ class Policko {
 private:
     char znakovaReprezentacia='/';
     int cislo = -1;
-    bool jeDomcek;
-    int hracSpawn=0;
+    bool jeDomcekEnd;
+    bool jeDomcekSpawn;
+    int hracDomcekVystup=0;
+
 public:
     Policko(int cislo=-1, char znak='*');
     char getZnak();
