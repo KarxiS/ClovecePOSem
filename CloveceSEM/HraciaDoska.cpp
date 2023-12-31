@@ -47,14 +47,14 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
         // Horizontálna cesta
         int krok = (noveJ > j) ? 1 : -1;
         for (int jj = j; jj != noveJ; jj += krok) {
-            hraciePole[i][jj] = Policko().setZnak('-');
+            hraciePole[i][jj] = Policko().setZnak('-').setCislo(pocitadlo_cesta++);
         }
     }
     else if (j == noveJ) {
         // Vertikálna cesta
         int krok = (noveI > i) ? 1 : -1;
         for (int ii = i; ii != noveI; ii += krok) {
-            hraciePole[ii][j] = Policko().setZnak('-');
+            hraciePole[ii][j] = Policko().setZnak('-').setCislo(pocitadlo_cesta++);
         }
     }
 }

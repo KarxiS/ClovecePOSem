@@ -10,6 +10,7 @@ private:
 
     std::vector<std::vector<Policko>> hraciePole;
     std::vector<std::vector<Policko>> hraciePolePolicko;
+    int pocitadlo_cesta = 0;
 
 public:
     HraciaDoska();
