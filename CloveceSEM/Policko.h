@@ -10,10 +10,10 @@
 
 class Policko {
 private:
-    char znakovaReprezentacia='/';
+    char znakovaReprezentacia='*';
     int cislo = -1;
-    bool jeDomcekEnd;
-    bool jeDomcekSpawn;
+    bool jeDomcekEnd=false;
+    bool jeDomcekSpawn=false;
     int hracDomcekVystup=0;
 
 public:
