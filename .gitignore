@@ -3,3 +3,13 @@
 /socket_server_src/socket_server_src/.idea/
 /socket_server_src/socket_server_src/cmake-build-debug/
 /socket_server_src/socket_server_src/cmake-build-debug-visual-studio/
+.idea/workspace.xml
+build/CMakeCache.txt
+build/.cmake/api/v1/query/client-vscode/query.json
+build/CMakeFiles/cmake.check_cache
+build/CMakeFiles/CMakeError.log
+build/CMakeFiles/CMakeOutput.log
+build/CMakeFiles/3.20.21032501-MSVC_2/CMakeSystem.cmake
+build/CMakeFiles/3.20.21032501-MSVC_2/CompilerIdC/CMakeCCompilerId.c
+build/CMakeFiles/3.20.21032501-MSVC_2/CompilerIdCXX/CMakeCXXCompilerId.cpp
+.idea/other.xml

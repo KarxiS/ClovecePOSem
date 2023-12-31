@@ -1,9 +1,4 @@
-//
-// Created by andre on 29. 12. 2023.
-//
-
-#ifndef CLOVECEPOSEM_HRACIADOSKA_H
-#define CLOVECEPOSEM_HRACIADOSKA_H
+#pragma once
 #include <string>
 #include <vector>
 #include "Figurka.h"
@@ -11,16 +6,15 @@
 
 class HraciaDoska {
 private:
-    std::vector<Figurka> hraciePole;
+
+    std::vector<std::vector<char>> hraciePole;
 
 public:
-    HraciaDoska(){
-        inicializaciaHraciehoPola();
-    }
+    HraciaDoska();
 
-    void inicializaciaHraciehoPola();    //nastav hracie policka
-    void zobrazHraciePole();             //zobrazenie pozicii figuriek hracov
+    void inicializaciaHraciehoPola();
+    void pridajHraca(Hrac& hrac);
+    void vytvorCestu(int i, int j, int noveI, int noveJ);
+    void zobrazHraciePole();             
 };
 
-
-#endif //CLOVECEPOSEM_HRACIADOSKA_H

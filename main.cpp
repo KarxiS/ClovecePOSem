@@ -1,50 +1,20 @@
 #include <iostream>
-#include <vector>
-#include <thread>
+#include "HraciaDoska.h"
+#include "Hra.h"
 
-void producer() {
+int main()
+{
+    Hrac hrac1("Jozef", '1');
+    Hrac hrac2("Matus", '2');
+    Hrac hrac3("Kiko", '3');
+    Hrac hrac4("Rasto", '4');
 
-}
+    Hra hra;
+    hra.zapisHraca(hrac1);
+    hra.zapisHraca(hrac2);
+    hra.zapisHraca(hrac3);
+    hra.zapisHraca(hrac4);
 
-
-void consumer() {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int main() {
-    std::vector<std::thread> threads;
-    int pocetBanikov = 2;
-    int velkostNastenky = 10;
-
-    srand(time(NULL));
-    std::cout << "Hello, World!" << std::endl;
-    //std::thread producerThread();
-
-//    for (int i = 0; i < pocetBanikov; ++i) {
-//        threads.push_back(std::thread(consumer, std::ref(nastenka)));
-//    }
-//    for (auto& thread : threads) {
-//        thread.join();
-//    }
-//    producerThread.join();
-
-    return 0;
+    hra.zacniHru();
+    hra.ukazVysledok();
 }
