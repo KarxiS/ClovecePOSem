@@ -22,7 +22,11 @@ public:
     Policko setZnak(char znak);
     int getCislo();
     Policko setCislo(int cislo);
-    Policko setSpawn(Hrac hrac);
+    Policko setSpawn(int hrac);
+
+    bool isSpawnDomcek();
+
+    bool isEndDomcek();
 };
 
 

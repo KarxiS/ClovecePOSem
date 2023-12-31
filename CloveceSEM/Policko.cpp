@@ -26,12 +26,26 @@ char Policko::getZnak() {
 }
 
 Policko Policko::setZnak(char znak) {
+    if(znak=='X'){
+        this->jeDomcekEnd=true;
+    }else{
+        this->jeDomcekEnd=false;
+    }
+
     this->znakovaReprezentacia=znak;
     return *this;
 }
 
-Policko Policko::setSpawn(Hrac hrac) {
-    this->hracSpawn=hrac.getId();
+bool Policko::isSpawnDomcek(){
+    return this->jeDomcekSpawn;
+}
 
+bool Policko::isEndDomcek(){
+    return this->jeDomcekEnd;
+}
+
+Policko Policko::setSpawn(int hrac) {
+    this->hracDomcekVystup=hrac;
+    this->jeDomcekSpawn=true;
     return *this;
 }
