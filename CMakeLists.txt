@@ -1,18 +1,13 @@
 cmake_minimum_required(VERSION 3.18)
-project(CloveceSEM)
+project(ClovecePOSem)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
-include_directories(CloveceSEM)
-
-add_executable(CloveceSEM
-        CloveceSEM/Figurka.cpp
-        CloveceSEM/Figurka.h
-        CloveceSEM/Hra.cpp
-        CloveceSEM/Hra.h
-        CloveceSEM/Hrac.cpp
-        CloveceSEM/Hrac.h
-        CloveceSEM/HraciaDoska.cpp
-        CloveceSEM/HraciaDoska.h
-        CloveceSEM/Kocka.h
-        CloveceSEM/Main.cpp)
+add_executable(ClovecePOSem main.cpp
+        Hra/Hra.cpp
+        Hra/Hra.h
+        Objekty/Hrac.cpp
+        Objekty/Hrac.h
+        Objekty/Hrac.cpp)
+find_package(Threads REQUIRED)
+target_link_libraries(ClovecePOSem Threads::Threads)
