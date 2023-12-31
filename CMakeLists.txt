@@ -4,11 +4,12 @@ project(ClovecePOSem)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(ClovecePOSem main.cpp
+add_executable(ClovecePOSem
         Hra/Hra.cpp
         Hra/Hra.h
         Objekty/Hrac.cpp
         Objekty/Hrac.h
-        Objekty/Hrac.cpp)
+        Objekty/Hrac.cpp
+        CloveceSEM/Main.cpp)
 find_package(Threads REQUIRED)
 target_link_libraries(ClovecePOSem Threads::Threads)
