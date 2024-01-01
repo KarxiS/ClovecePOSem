@@ -22,11 +22,11 @@ private:
 public:
     Policko(int cislo=-1, char znak=' ');
     char getZnak();
-    Policko setZnak(char znak);
+    Policko& setZnak(char znak);
     int getCislo();
-    Policko setCislo(int cislo);
-    Policko setSpawn(int hrac);
-    Policko odomkniSmer(int smerX, int smerY);
+    Policko& setCislo(int cislo);
+    Policko& setSpawn(int hrac);
+    Policko& odomkniSmer(int smerX, int smerY);
     bool isSpawnDomcek();
     bool isHore();
     bool isDole();

@@ -38,10 +38,10 @@ void HraciaDoska::inicializaciaHraciehoPola() {
 
 void HraciaDoska::nastavSpawnPoint()
 {
-    this->hraciePole[4][10].setSpawn(1);
-    this->hraciePole[0][4].setSpawn(2);
-    this->hraciePole[6][0].setSpawn(3);
-    this->hraciePole[10][6].setSpawn(4);
+    this->hraciePole[10][4].setSpawn(1).setZnak('S');
+    this->hraciePole[4][0].setSpawn(2).setZnak('S');
+    this->hraciePole[0][6].setSpawn(3).setZnak('S');
+    this->hraciePole[6][10].setSpawn(4).setZnak('S');
 }
 void HraciaDoska::pridajHraca(Hrac& hrac)
 {

@@ -12,7 +12,7 @@ Policko::Policko(int cislo, char znak) {
 
 }
 
-Policko Policko::setCislo(int cislo) {
+Policko& Policko::setCislo(int cislo) {
     this->cislo=cislo;
     return *this;
 }
@@ -25,7 +25,7 @@ char Policko::getZnak() {
     return this->znakovaReprezentacia;
 }
 
-Policko Policko::setZnak(char znak) {
+Policko& Policko::setZnak(char znak) {
     if(znak=='X'){
         this->jeDomcekEnd=true;
     }else{
@@ -44,13 +44,14 @@ bool Policko::isEndDomcek(){
     return this->jeDomcekEnd;
 }
 
-Policko Policko::setSpawn(int hrac) {
+Policko& Policko::setSpawn(int hrac) {
+
     this->hracDomcekVystup=hrac;
     this->jeDomcekSpawn=true;
     return *this;
 }
 
-Policko Policko::odomkniSmer(int smerX, int smerY) {
+Policko& Policko::odomkniSmer(int smerX, int smerY) {
     if(smerX==1){
         this->doprava=true;
     }
