@@ -10,7 +10,7 @@
 
 class Policko {
 private:
-    char znakovaReprezentacia='*';
+    char znakovaReprezentacia=' ';
     int cislo = -1;
     bool jeDomcekEnd=false;
     bool jeDomcekSpawn=false;
@@ -20,7 +20,7 @@ private:
     bool doprava = false;
     bool dolava = false;
 public:
-    Policko(int cislo=-1, char znak='*');
+    Policko(int cislo=-1, char znak=' ');
     char getZnak();
     Policko setZnak(char znak);
     int getCislo();
