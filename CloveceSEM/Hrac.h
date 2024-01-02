@@ -8,6 +8,7 @@ class Hrac {
 private:
     std::string meno;
     char id;
+    Policko vybrataFigurka;
 public:
     std::vector<Policko> figurky;
     bool jeSkonceny;
@@ -17,8 +18,9 @@ public:
     Hrac() = default;
 
     void nastavFigurky();
-    int hodKockou(Kocka kocka);                                
-    void spravPosun(Policko zvolenaFigurka, int pocetPoli);
+    int hodKockou(Kocka kocka);
+    bool vyberFigurku();
+    Policko& getVybrataFigurka();
     void vypisInfo();
     int getId();
 };

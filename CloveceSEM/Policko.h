@@ -15,6 +15,7 @@ private:
 public:
     bool jeDomcekEnd=false;
     bool jeDomcekSpawn=false;
+    bool vHre=false;
 
     bool hore=false;
     bool dole = false;

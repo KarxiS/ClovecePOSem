@@ -49,6 +49,12 @@ void Hra::spravTah()
 	int padnuteCislo = hracNaTahu.hodKockou(this->kocka);
     std::cout << "Padnute cislo: " << padnuteCislo << std::endl;
 
+    //ak ma nejaku figurku k dispozicii(vrati true), tak sprav posun konkretnej figurky aktualneho hraca
+    if(hracNaTahu.vyberFigurku()){
+        hraciaDoska.spravPosun(hracNaTahu.getVybrataFigurka(), padnuteCislo);
+    }
+
+
 	//aktualizacia hraca pre dalsie kolo	
 	this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
 }

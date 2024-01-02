@@ -52,9 +52,25 @@ int Hrac::hodKockou(Kocka kocka)
     return kocka.hodKockou();
 }
 
-void Hrac::spravPosun(Policko zvolenaFigurka, int pocetPoli)
-{
+bool Hrac::vyberFigurku() {
 
+    //metoda pre vyber jednej zo 4 figurok hraca
+
+    for (Policko figurka : figurky) {
+        //ak sa nachadza na spawne
+        if(figurka.jeDomcekSpawn){
+            this->vybrataFigurka=figurka;
+            return true;
+        }
+        //ak je v hre
+        if(figurka.vHre){
+            this->vybrataFigurka=figurka;
+            return true;
+        }
+    }
+
+    //pripad len ak este nema ziadnu figurku von z domceku
+    return false;
 }
 
 void Hrac::vypisInfo()
@@ -64,4 +80,8 @@ void Hrac::vypisInfo()
 
 int Hrac::getId() {
     return this->id;
+}
+
+Policko& Hrac::getVybrataFigurka() {
+    return this->vybrataFigurka;
 }

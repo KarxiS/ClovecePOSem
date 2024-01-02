@@ -107,6 +107,14 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd) {
     }
 }
 
+void HraciaDoska::spravPosun(Policko& figurka, int pocetPoli) {
+    //metoda pre posun figurky o dany pocet na hracej doske
+
+
+
+
+}
+
 void HraciaDoska::zobrazHraciePole() {
     std::cout << "*********VypisHry**********"<<std::endl;
     for (int i = 0; i < 11; ++i) {
