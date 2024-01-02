@@ -39,15 +39,14 @@ void pi_estimation_add_point(POINT data, struct pi_estimation* output_data) {
 }
 
 _Bool pi_estimation_try_deserialize(struct pi_estimation* pi_estimation, struct char_buffer* buf) {
-    char * pos = strchr(buf, ';');
-    if(pos!=NULL){
-        pos=strchr([pos+1,';']);
-        if(pos!=NULL){
-            sscanf(buf,"%lld;%lld;",&pi_estimation->inside_count,&pi_estimation->total_count);
+    char* pos = strchr(buf, ';');
+    if(pos != NULL){
+        pos = strchr(pos + 1, ';');
+        if(pos != NULL){
+            sscanf(buf, "%lld;%lld;", &pi_estimation->inside_count, &pi_estimation->total_count);
             return true;
         }
     }
-
     return false;
 }
 
