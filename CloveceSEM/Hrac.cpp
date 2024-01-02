@@ -1,7 +1,7 @@
 #include "Hrac.h"
 #include <iostream>
 
-Hrac::Hrac(std::string paMeno, int paId)
+Hrac::Hrac(std::string paMeno, char paId)
 {
 	this->meno = paMeno;
 	this->id = paId;
@@ -12,38 +12,37 @@ Hrac::Hrac(std::string paMeno, int paId)
 void Hrac::nastavFigurky()
 {
     this->figurky.clear();
-    char pom=(char)this->id;
-    switch (pom) {
+    switch (this->id) {
         case '1':
-            this->figurky.push_back(Policko(-1, pom, 10, 0));
-            this->figurky.push_back(Policko(-1, pom, 10, 1));
-            this->figurky.push_back(Policko(-1, pom, 9, 0));
-            this->figurky.push_back(Policko(-1, pom, 9, 1));
+            this->figurky.push_back(Policko(-1, this->id, 10, 0));
+            this->figurky.push_back(Policko(-1, this->id, 10, 1));
+            this->figurky.push_back(Policko(-1, this->id, 9, 0));
+            this->figurky.push_back(Policko(-1, this->id, 9, 1));
             break;
 
         case '2':
-            this->figurky.push_back(Policko(-1, pom, 0, 0));
-            this->figurky.push_back(Policko(-1, pom, 0, 1));
-            this->figurky.push_back(Policko(-1, pom, 1, 0));
-            this->figurky.push_back(Policko(-1, pom, 1, 1));
+            this->figurky.push_back(Policko(-1, this->id, 0, 0));
+            this->figurky.push_back(Policko(-1, this->id, 0, 1));
+            this->figurky.push_back(Policko(-1, this->id, 1, 0));
+            this->figurky.push_back(Policko(-1, this->id, 1, 1));
             break;
 
         case '3':
-            this->figurky.push_back(Policko(-1, pom, 0, 9));
-            this->figurky.push_back(Policko(-1, pom, 0, 10));
-            this->figurky.push_back(Policko(-1, pom, 1, 9));
-            this->figurky.push_back(Policko(-1, pom, 1, 10));
+            this->figurky.push_back(Policko(-1, this->id, 0, 9));
+            this->figurky.push_back(Policko(-1, this->id, 0, 10));
+            this->figurky.push_back(Policko(-1, this->id, 1, 9));
+            this->figurky.push_back(Policko(-1, this->id, 1, 10));
             break;
 
         case '4':
-            this->figurky.push_back(Policko(-1, pom, 9, 9));
-            this->figurky.push_back(Policko(-1, pom, 9, 10));
-            this->figurky.push_back(Policko(-1, pom, 10, 9));
-            this->figurky.push_back(Policko(-1, pom, 10, 10));
+            this->figurky.push_back(Policko(-1, this->id, 9, 9));
+            this->figurky.push_back(Policko(-1, this->id, 9, 10));
+            this->figurky.push_back(Policko(-1, this->id, 10, 9));
+            this->figurky.push_back(Policko(-1, this->id, 10, 10));
             break;
 
         default:
-            std::cout << "Vyskytla sa chyba pri nastatovani figurok.";
+            std::cout << "Vyskytla sa chyba pri nastatovani figurok.\n";
             break;
     }
 }

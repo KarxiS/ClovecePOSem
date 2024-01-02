@@ -4,6 +4,7 @@
 
 int main()
 {
+    srand(time(nullptr));
     Hrac hrac1("Jozef", '1');
     Hrac hrac2("Matus", '2');
     Hrac hrac3("Kiko", '3');

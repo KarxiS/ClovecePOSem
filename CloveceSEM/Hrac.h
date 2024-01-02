@@ -7,13 +7,13 @@
 class Hrac {
 private:
     std::string meno;
-    int id;
+    char id;
 public:
     std::vector<Policko> figurky;
     bool jeSkonceny;
 
 public:
-    Hrac(std::string paMeno, int paId);
+    Hrac(std::string paMeno, char paId);
     Hrac() = default;
 
     void nastavFigurky();

@@ -25,8 +25,12 @@ void Hra::zacniHru()
 		hraciaDoska.pridajHraca(hraci.at(i));
 	};
 	hraciaDoska.zobrazHraciePole();
+    this->spravTah();
 
-    hraciaDoska.zobrazHraciePoleDebugCesty();
+
+
+
+    //hraciaDoska.zobrazHraciePoleDebugCesty();
     /*
 	do {
 		this->spravTah();
@@ -40,9 +44,10 @@ void Hra::zacniHru()
 void Hra::spravTah()
 {
 	Hrac hracNaTahu = hraci.at(aktualnyHrac);
-	//vykonanie akcie hraca
-	int padnuteCislo = hracNaTahu.hodKockou(this->kocka);
+    std::cout << "Hrac na rade: " << hracNaTahu.getId() - 48 << std::endl;
 
+	int padnuteCislo = hracNaTahu.hodKockou(this->kocka);
+    std::cout << "Padnute cislo: " << padnuteCislo << std::endl;
 
 	//aktualizacia hraca pre dalsie kolo	
 	this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
