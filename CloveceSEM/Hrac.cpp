@@ -1,7 +1,7 @@
 #include "Hrac.h"
 #include <iostream>
 
-Hrac::Hrac(std::string paMeno, char paId)
+Hrac::Hrac(std::string paMeno, int paId)
 {
 	this->meno = paMeno;
 	this->id = paId;
@@ -11,32 +11,40 @@ Hrac::Hrac(std::string paMeno, char paId)
 
 void Hrac::nastavFigurky()
 {
-
     this->figurky.clear();
+    char pom=(char)this->id;
+    switch (pom) {
+        case '1':
+            this->figurky.push_back(Policko(-1, pom, 10, 0));
+            this->figurky.push_back(Policko(-1, pom, 10, 1));
+            this->figurky.push_back(Policko(-1, pom, 9, 0));
+            this->figurky.push_back(Policko(-1, pom, 9, 1));
+            break;
 
-    if (this->id == '1') {
-        this->figurky.push_back(Figurka(id, 10, 0));
-        this->figurky.push_back(Figurka(id, 10, 1));
-        this->figurky.push_back(Figurka(id, 9, 0));
-        this->figurky.push_back(Figurka(id, 9, 1));
-    }
-    else if (this->id == '2') {
-        this->figurky.push_back(Figurka(id, 0, 0));
-        this->figurky.push_back(Figurka(id, 0, 1));
-        this->figurky.push_back(Figurka(id, 1, 0));
-        this->figurky.push_back(Figurka(id, 1, 1));
-    }
-    else if (this->id == '3') {
-        this->figurky.push_back(Figurka(id, 0, 9));
-        this->figurky.push_back(Figurka(id, 0, 10));
-        this->figurky.push_back(Figurka(id, 1, 9));
-        this->figurky.push_back(Figurka(id, 1, 10));
-    }
-    else if (this->id == '4') {
-        this->figurky.push_back(Figurka(id, 9, 9));
-        this->figurky.push_back(Figurka(id, 9, 10));
-        this->figurky.push_back(Figurka(id, 10, 9));
-        this->figurky.push_back(Figurka(id, 10, 10));
+        case '2':
+            this->figurky.push_back(Policko(-1, pom, 0, 0));
+            this->figurky.push_back(Policko(-1, pom, 0, 1));
+            this->figurky.push_back(Policko(-1, pom, 1, 0));
+            this->figurky.push_back(Policko(-1, pom, 1, 1));
+            break;
+
+        case '3':
+            this->figurky.push_back(Policko(-1, pom, 0, 9));
+            this->figurky.push_back(Policko(-1, pom, 0, 10));
+            this->figurky.push_back(Policko(-1, pom, 1, 9));
+            this->figurky.push_back(Policko(-1, pom, 1, 10));
+            break;
+
+        case '4':
+            this->figurky.push_back(Policko(-1, pom, 9, 9));
+            this->figurky.push_back(Policko(-1, pom, 9, 10));
+            this->figurky.push_back(Policko(-1, pom, 10, 9));
+            this->figurky.push_back(Policko(-1, pom, 10, 10));
+            break;
+
+        default:
+            std::cout << "Vyskytla sa chyba pri nastatovani figurok.";
+            break;
     }
 }
 
@@ -45,13 +53,14 @@ int Hrac::hodKockou(Kocka kocka)
     return kocka.hodKockou();
 }
 
-void Hrac::spravPosun(Figurka zvolenaFigurka, int pocetPoli)
+void Hrac::spravPosun(Policko zvolenaFigurka, int pocetPoli)
 {
+
 }
 
 void Hrac::vypisInfo()
 {
-    std::cout << "meno hraca: " << this->meno << std::endl;
+    std::cout << "Meno hraca: " << this->meno << ", id hraca: " << this->id << std::endl;
 }
 
 int Hrac::getId() {

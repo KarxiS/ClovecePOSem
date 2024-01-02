@@ -11,10 +11,9 @@ add_executable(ClovecePOSem
         CloveceSEM/Hra.cpp
         CloveceSEM/Hrac.cpp
         CloveceSEM/HraciaDoska.cpp
-        CloveceSEM/Figurka.cpp
         CloveceSEM/Policko.cpp
         CloveceSEM/Policko.h
         CloveceSEM/Policko.cpp)
 find_package(Threads REQUIRED)
-target_link_libraries(ClovecePOSem Threads::Threads )
-target_link_libraries(ClovecePOSem wsock32 ws2_32)
+target_link_libraries(ClovecePOSem Threads::Threads)
+

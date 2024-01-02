@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Figurka.h"
 #include "Hrac.h"
 #include "Policko.h"
 

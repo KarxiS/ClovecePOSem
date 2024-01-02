@@ -5,35 +5,31 @@
 #ifndef CLOVECEPOSEM_POLICKO_H
 #define CLOVECEPOSEM_POLICKO_H
 
-
-#include "Hrac.h"
-
 class Policko {
 private:
-    char znakovaReprezentacia=' ';
-    int cislo = -1;
+    char znakovaReprezentacia;
+    int cislo;
+    int suradnicaX;
+    int suradnicaY;
+    int hracDomcekVystup=0;
+public:
     bool jeDomcekEnd=false;
     bool jeDomcekSpawn=false;
-    int hracDomcekVystup=0;
+
     bool hore=false;
     bool dole = false;
     bool doprava = false;
     bool dolava = false;
 public:
-    Policko(int cislo=-1, char znak=' ');
+    Policko(int cislo=-1, char znak=' ', int x=0, int y=0);
     char getZnak();
     Policko& setZnak(char znak);
     int getCislo();
     Policko& setCislo(int cislo);
+    int getSuradnicaX();
+    int getSuradnicaY();
     Policko& setSpawn(int hrac);
     Policko& odomkniSmer(int smerX, int smerY);
-    bool isSpawnDomcek();
-    bool isHore();
-    bool isDole();
-    bool isDolava();
-    bool isDoprava();
-
-    bool isEndDomcek();
 };
 
 

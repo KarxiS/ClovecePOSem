@@ -27,12 +27,13 @@ void Hra::zacniHru()
 	hraciaDoska.zobrazHraciePole();
 
     hraciaDoska.zobrazHraciePoleDebugCesty();
-	/*
+    /*
 	do {
 		this->spravTah();
 		hraciaDoska.zobrazHraciePole();
+
 	} while (!this->jeKoniec);
-	*/
+    */
 	
 }
 
@@ -41,7 +42,7 @@ void Hra::spravTah()
 	Hrac hracNaTahu = hraci.at(aktualnyHrac);
 	//vykonanie akcie hraca
 	int padnuteCislo = hracNaTahu.hodKockou(this->kocka);
-	hracNaTahu.spravPosun(hracNaTahu.figurky.at(rand()%4), padnuteCislo);
+
 
 	//aktualizacia hraca pre dalsie kolo	
 	this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
@@ -49,5 +50,6 @@ void Hra::spravTah()
 
 void Hra::ukazVysledok()
 {
+
 }
 

@@ -1,24 +1,24 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Figurka.h"
 #include "Kocka.h"
+#include "Policko.h"
 
 class Hrac {
 private:
     std::string meno;
-    char id;
+    int id;
 public:
-    std::vector<Figurka> figurky;
+    std::vector<Policko> figurky;
     bool jeSkonceny;
 
 public:
-    Hrac(std::string paMeno, char paId);
+    Hrac(std::string paMeno, int paId);
     Hrac() = default;
 
     void nastavFigurky();
     int hodKockou(Kocka kocka);                                
-    void spravPosun(Figurka zvolenaFigurka, int pocetPoli);    
+    void spravPosun(Policko zvolenaFigurka, int pocetPoli);
     void vypisInfo();
     int getId();
 };

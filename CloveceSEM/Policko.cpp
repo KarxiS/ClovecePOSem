@@ -5,11 +5,11 @@
 #include "Policko.h"
 
 
-Policko::Policko(int cislo, char znak) {
-    this->znakovaReprezentacia=znak;
+Policko::Policko(int cislo, char znak, int x, int y) {
     this->cislo=cislo;
-
-
+    this->znakovaReprezentacia=znak;
+    this->suradnicaX=x;
+    this->suradnicaY=y;
 }
 
 Policko& Policko::setCislo(int cislo) {
@@ -36,14 +36,6 @@ Policko& Policko::setZnak(char znak) {
     return *this;
 }
 
-bool Policko::isSpawnDomcek(){
-    return this->jeDomcekSpawn;
-}
-
-bool Policko::isEndDomcek(){
-    return this->jeDomcekEnd;
-}
-
 Policko& Policko::setSpawn(int hrac) {
 
     this->hracDomcekVystup=hrac;
@@ -67,18 +59,10 @@ Policko& Policko::odomkniSmer(int smerX, int smerY) {
     return *this;
 }
 
-bool Policko::isHore() {
-    return this->hore;
+int Policko::getSuradnicaX() {
+    return this->suradnicaX;
 }
 
-bool Policko::isDole() {
-    return this->dole;
-}
-
-bool Policko::isDolava() {
-    return this->dolava;
-}
-
-bool Policko::isDoprava() {
-    return this->doprava;
+int Policko::getSuradnicaY() {
+    return this->suradnicaY;
 }
