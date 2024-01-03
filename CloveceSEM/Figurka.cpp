@@ -104,3 +104,7 @@ void Figurka::posunSa(int oKolko) {
 
 
 }
+
+void Figurka::setStartovaciePolicko(Policko* policko) {
+    this->startovaciePolicko=policko;
+}

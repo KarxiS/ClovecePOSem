@@ -54,6 +54,7 @@ void HraciaDoska::pridajHraca(Hrac& hrac)
         int x = figurka.getSuradnicaX();
         int y = figurka.getSuradnicaY();
         figurka.setAktualnePolicko(&hraciePole[y].at(x));
+        figurka.setStartovaciePolicko(&hraciePole[y].at(x));
     }
 }
 

@@ -28,5 +28,7 @@ public:
 
 
     Policko *startovaciePolicko;
+
+    void setStartovaciePolicko(Policko* policko);
 };
 
