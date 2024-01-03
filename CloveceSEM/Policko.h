@@ -16,13 +16,23 @@ private:
     int cislo = -1;
     bool jeDomcekEnd=false;
     bool jeDomcekSpawn=false;
-    int hracDomcekVystup=0;
+    char hracDomcekVystup=0;
+public:
+    int getHracDomcekVystup() const;
+
+private:
     bool hore=false;
     bool dole = false;
     bool doprava = false;
     bool dolava = false;
     Policko* dalsie;
     Figurka* aktualnaFigurka;
+    Policko* domcek;
+public:
+    Policko *getDomcek() const;
+
+    void setDomcek(Policko *domcek);
+
 public:
     Policko *getDalsie() const;
 
@@ -32,7 +42,7 @@ public:
     Policko& setZnak(char znak);
     int getCislo();
     Policko& setCislo(int cislo);
-    Policko& setSpawn(int hrac);
+    Policko& setSpawn(char hrac);
     Policko& odomkniSmer(int smerX, int smerY);
     bool isSpawnDomcek();
     bool isHore();

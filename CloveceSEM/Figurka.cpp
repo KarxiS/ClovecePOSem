@@ -55,21 +55,52 @@ void Figurka::setSuradnicaY(int y) {
 }
 
 Figurka Figurka::vyhodFigurku() {
-    this->setXY(this->spawnX,this->spawnY);
+    // Set the current square to null
+    this->aktualnePolicko->setFigurka(nullptr);
+    this->aktualnePolicko = nullptr;
+
+    // Set the figurine's current square to its starting square
+    this->aktualnePolicko = this->startovaciePolicko;
+    this->aktualnePolicko->setFigurka(this);
     return *this;
 }
 
 void Figurka::posunSa(int oKolko) {
+    Policko* localPolicko = this->aktualnePolicko;
+    Policko* finalPolicko = this->aktualnePolicko;
+
     for (int i = 0; i < oKolko; ++i) {
 
-        if(aktualnePolicko!= nullptr){
-            Policko* dalsie =aktualnePolicko->getDalsie();
-            aktualnePolicko->setFigurka(nullptr);
-            aktualnePolicko=dalsie;
-            aktualnePolicko->setFigurka(this);
+        if (finalPolicko == nullptr || finalPolicko->getDalsie() == nullptr) {
+            return;
         }
 
 
+        else if (finalPolicko->getDomcek() != nullptr && finalPolicko->getDomcek()->getHracDomcekVystup() == this->getZnak()) {
+            this->aktualnePolicko = finalPolicko->getDomcek();
+            this->aktualnePolicko->setFigurka(this);
+            localPolicko->setFigurka(nullptr);
+            return;
+        }
+        finalPolicko=finalPolicko->getDalsie();
+
 
     }
+    //ak final policko je niekto, pojdeme naspat na local
+
+    if(finalPolicko->getAktualnaFigurka()!= nullptr &&finalPolicko->getAktualnaFigurka()->getZnak()!=this->getZnak()) {
+        finalPolicko->getAktualnaFigurka()->vyhodFigurku();
+    }
+
+    if(finalPolicko->getAktualnaFigurka()!= nullptr &&finalPolicko->getAktualnaFigurka()->getZnak()==this->getZnak()) {
+        return;
+    }
+
+
+    aktualnePolicko->setFigurka(nullptr);
+    aktualnePolicko = finalPolicko;
+    aktualnePolicko->setFigurka(this);
+
+
+
 }

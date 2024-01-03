@@ -21,10 +21,12 @@ public:
     Figurka vyhodFigurku();
     void posunSa(int oKolko);
 
+
     Policko *getAktualnePolicko() const;
 
     Figurka& setAktualnePolicko(Policko *aktualnePolickoL);
 
 
+    Policko *startovaciePolicko;
 };
 
