@@ -39,6 +39,7 @@ void pi_estimation_add_point(POINT data, struct pi_estimation* output_data) {
 }
 
 _Bool pi_estimation_try_deserialize(struct pi_estimation* pi_estimation, struct char_buffer* buf) {
+    //spracovanie dat od klienta
     char* pos = strchr(buf, ';');
     if(pos != NULL){
         pos = strchr(pos + 1, ';');
@@ -89,14 +90,18 @@ void thread_data_destroy(struct thread_data* data) {
 }
 
 void* process_client_data(void* thread_data) {
+    //potrebujeme osobitne vlakno pre komunikaciu s klientom
     struct thread_data *data = thread_data;
+
     PASSIVE_SOCKET p_socket;
     passive_socket_init(&p_socket);
+
     passive_socket_start_listening(&p_socket, data->port);
     passive_socket_wait_for_client(&p_socket, data->my_socket);
     passive_socket_stop_listening(&p_socket);
     passive_socket_destroy(&p_socket);
-    printf("klient pripojeny\n");
+
+    printf("Klient pripojeny\n");
     active_socket_start_reading(data->my_socket);
 
     return NULL;

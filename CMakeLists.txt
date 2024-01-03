@@ -11,7 +11,6 @@ add_executable(ClovecePOSem
         CloveceSEM/Hra.cpp
         CloveceSEM/Hrac.cpp
         CloveceSEM/HraciaDoska.cpp
-        CloveceSEM/Figurka.cpp
         CloveceSEM/Policko.cpp
         CloveceSEM/Policko.h
         CloveceSEM/Policko.cpp)

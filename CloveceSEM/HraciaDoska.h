@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Figurka.h"
 #include "Hrac.h"
 #include "Policko.h"
 
@@ -19,6 +18,7 @@ public:
     void pridajHraca(Hrac& hrac);
     void vytvorCestu(int i, int j, int noveI, int noveJ);
     void vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd);
+    void spravPosun(Policko& figurka, int pocetPoli);
     void zobrazHraciePole();
     void zobrazHraciePoleDebugCesty();
 
