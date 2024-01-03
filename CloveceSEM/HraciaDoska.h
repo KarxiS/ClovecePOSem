@@ -8,13 +8,13 @@
 class HraciaDoska {
 private:
 
-    std::vector<std::vector<Policko>> hraciePole;
+
     std::vector<std::vector<Policko>> hraciePolePolicko;
     int pocitadlo_cesta = 10;
 
 public:
     HraciaDoska();
-
+    std::vector<std::vector<Policko>> hraciePole;
     void inicializaciaHraciehoPola();
     void pridajHraca(Hrac& hrac);
     void vytvorCestu(int i, int j, int noveI, int noveJ);
@@ -23,5 +23,7 @@ public:
     void zobrazHraciePoleDebugCesty();
 
     void nastavSpawnPoint();
+
+    Policko *getPolicko(int x, int y);
 };
 

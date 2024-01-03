@@ -8,6 +8,8 @@
 Policko::Policko(int cislo, char znak) {
     this->znakovaReprezentacia=znak;
     this->cislo=cislo;
+    this->dalsie= nullptr;
+    this->aktualnaFigurka= nullptr;
 
 
 }
@@ -22,8 +24,14 @@ int Policko::getCislo() {
 }
 
 char Policko::getZnak() {
+    if(this->aktualnaFigurka!= nullptr){
+        return this->aktualnaFigurka->getZnak();
+    }
+
     return this->znakovaReprezentacia;
 }
+
+
 
 Policko& Policko::setZnak(char znak) {
     if(znak=='X'){
@@ -81,4 +89,25 @@ bool Policko::isDolava() {
 
 bool Policko::isDoprava() {
     return this->doprava;
+}
+
+Policko *Policko::getDalsie() const {
+    return dalsie;
+}
+
+void Policko::setDalsie(Policko* dalsieLocal) {
+    this->dalsie=dalsieLocal;
+}
+
+Figurka *Policko::getAktualnaFigurka() const {
+    return aktualnaFigurka;
+}
+
+void Policko::setAktualnaFigurka(Figurka *aktualnaFigurka) {
+    Policko::aktualnaFigurka = aktualnaFigurka;
+
+}
+
+Policko &Policko::setFigurka(Figurka *figurka) {
+    this->aktualnaFigurka=figurka;
 }

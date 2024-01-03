@@ -38,10 +38,15 @@ void Hra::zacniHru()
 
 void Hra::spravTah()
 {
-	Hrac hracNaTahu = hraci.at(aktualnyHrac);
+	Hrac& hracNaTahu = hraci.at(aktualnyHrac);
 	//vykonanie akcie hraca
 	int padnuteCislo = hracNaTahu.hodKockou(this->kocka);
 	hracNaTahu.spravPosun(hracNaTahu.figurky.at(rand()%4), padnuteCislo);
+    Policko& policko = *hraciaDoska.getPolicko(1,4);
+    Figurka& figurka = hracNaTahu.figurky[0];
+    figurka.setAktualnePolicko(&policko);
+
+    Policko& policko2 = *hraciaDoska.getPolicko(1,4);
 
 	//aktualizacia hraca pre dalsie kolo	
 	this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
@@ -49,5 +54,6 @@ void Hra::spravTah()
 
 void Hra::ukazVysledok()
 {
+    hraciaDoska.zobrazHraciePole();
 }
 

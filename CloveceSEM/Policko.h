@@ -6,7 +6,9 @@
 #define CLOVECEPOSEM_POLICKO_H
 
 
-#include "Hrac.h"
+#include "Figurka.h"
+
+class Figurka;
 
 class Policko {
 private:
@@ -19,6 +21,11 @@ private:
     bool dole = false;
     bool doprava = false;
     bool dolava = false;
+    Policko* dalsie;
+    Figurka* aktualnaFigurka;
+public:
+    Policko *getDalsie() const;
+
 public:
     Policko(int cislo=-1, char znak=' ');
     char getZnak();
@@ -33,7 +40,16 @@ public:
     bool isDolava();
     bool isDoprava();
 
+    Figurka *getAktualnaFigurka() const;
+
+    void setAktualnaFigurka(Figurka *aktualnaFigurka);
+
     bool isEndDomcek();
+
+    void setDalsie(Policko* dalsieLocal);
+
+
+    Policko &setFigurka(Figurka* figurka);
 };
 
 
