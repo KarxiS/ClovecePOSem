@@ -47,6 +47,8 @@ int Hrac::hodKockou(Kocka kocka)
 
 void Hrac::spravPosun(Figurka zvolenaFigurka, int pocetPoli)
 {
+
+
 }
 
 void Hrac::vypisInfo()

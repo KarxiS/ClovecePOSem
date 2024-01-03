@@ -47,7 +47,9 @@ void Hra::spravTah()
     figurka.setAktualnePolicko(&policko);
 
     Policko& policko2 = *hraciaDoska.getPolicko(1,4);
-
+    hraciaDoska.zobrazHraciePole();
+    figurka.posunSa(5);
+    hraciaDoska.zobrazHraciePole();
     //aktualizacia hraca pre dalsie kolo
     this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
 }

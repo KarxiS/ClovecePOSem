@@ -61,6 +61,15 @@ Figurka Figurka::vyhodFigurku() {
 
 void Figurka::posunSa(int oKolko) {
     for (int i = 0; i < oKolko; ++i) {
-        aktualnePolicko = aktualnePolicko->getDalsie();
+
+        if(aktualnePolicko!= nullptr){
+            Policko* dalsie =aktualnePolicko->getDalsie();
+            aktualnePolicko->setFigurka(nullptr);
+            aktualnePolicko=dalsie;
+            aktualnePolicko->setFigurka(this);
+        }
+
+
+
     }
 }

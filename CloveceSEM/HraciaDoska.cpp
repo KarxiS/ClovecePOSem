@@ -29,10 +29,10 @@ void HraciaDoska::inicializaciaHraciehoPola() {
     this->vytvorCestu(10, 6, 6, 6);
     this->vytvorCestu(6, 6, 6, 10);
     this->vytvorCestu(6, 10, 4, 10);
-    this->vytvorDomceky(1,5,4,5);
-    this->vytvorDomceky(9,5,6,5);
-    this->vytvorDomceky(5,1,5,4);
-    this->vytvorDomceky(5,9,5,6);
+    this->vytvorDomceky(1,5,4,5,2);
+    this->vytvorDomceky(9,5,6,5,4);
+    this->vytvorDomceky(5,1,5,4,2);
+    this->vytvorDomceky(5,9,5,6,1);
     this->nastavSpawnPoint();
 }
 
@@ -95,7 +95,7 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
         }
     }
 }
-void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd) {
+void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd, int hrac) {
 
     int smerX = (xStart < xEnd) ? 1 : -1;
     int smerY = (yStart < yEnd) ? 1 : -1;
@@ -104,14 +104,14 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd) {
 
         // Vertikálna cesta
         for (int y = yStart; y != yEnd + smerY; y += smerY) {
-            hraciePole[y][xStart] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(0,smerY);
+            hraciePole[y][xStart] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(0,smerY).setSpawn(hrac);
 
         }
     }
     if(yStart == yEnd){
         // Horizontalna cesta
         for (int x = xStart; x != xEnd + smerX; x += smerX) {
-            hraciePole[yStart][x] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(smerX,0);
+            hraciePole[yStart][x] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(smerX,0).setSpawn(hrac);
 
         }
     }
