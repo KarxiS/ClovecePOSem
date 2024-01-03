@@ -45,6 +45,8 @@ PiEstimation::PiEstimation() :
 }
 
 std::string &PiEstimation::serialize(std::string &output) {
+    //komunikacia klient - server
+    //klient posle data serveru
     output+=std::to_string(this->insideCount)+";"+std::to_string(this->totalCount)+";";
     return output;
 }
@@ -129,7 +131,6 @@ void consume(ThreadData& data) {
 }
 
 int main() {
-
 
     MySocket* mySocket = MySocket::createConnection("frios2.fri.uniza.sk",5050);
 
