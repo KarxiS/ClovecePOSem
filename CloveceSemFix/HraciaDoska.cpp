@@ -4,12 +4,12 @@
 
 
 HraciaDoska::HraciaDoska() : hraciePole(11, std::vector<Policko>(11)) {
-
+    
 }
 
 
 void HraciaDoska::inicializaciaHraciehoPola() {
-
+    
     for (int i = 0; i < 11; ++i) {
         for (int j = 0; j < 11; ++j) {
             hraciePole[i][j] = Policko();
@@ -58,7 +58,7 @@ void HraciaDoska::pridajHraca(Hrac& hrac)
 }
 
 void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
-
+    
     if (i == noveI) {
         // Vertikálna cesta
         int krok = (noveJ > j) ? 1 : -1;

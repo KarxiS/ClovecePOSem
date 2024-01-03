@@ -2,9 +2,9 @@
 
 Figurka::Figurka(char parZnak, int x, int y)
 {
-    this->znak = parZnak;
-    this->suradnicaX = x;
-    this->suradnicaY = y;
+	this->znak = parZnak;
+	this->suradnicaX = x;
+	this->suradnicaY = y;
     this->spawnX=x;
     this->spawnY=y;
     this->aktualnePolicko= nullptr;
@@ -12,12 +12,12 @@ Figurka::Figurka(char parZnak, int x, int y)
 
 char Figurka::getZnak()
 {
-    return this->znak;
+	return this->znak;
 }
 
 int Figurka::getSuradnicaX()
 {
-    return this->suradnicaX;
+	return this->suradnicaX;
 }
 
 Policko *Figurka::getAktualnePolicko() const {
@@ -36,7 +36,7 @@ Figurka& Figurka::setAktualnePolicko(Policko* aktualnePolickoL) {
 
 int Figurka::getSuradnicaY()
 {
-    return this->suradnicaY;
+	return this->suradnicaY;
 }
 
 void Figurka::setSuradnicaX(int x) {

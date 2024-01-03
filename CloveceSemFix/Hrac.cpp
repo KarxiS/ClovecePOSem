@@ -3,9 +3,9 @@
 
 Hrac::Hrac(std::string paMeno, char paId)
 {
-    this->meno = paMeno;
-    this->id = paId;
-    this->jeSkonceny = false;
+	this->meno = paMeno;
+	this->id = paId;
+	this->jeSkonceny = false;
     this->nastavFigurky();
 }
 

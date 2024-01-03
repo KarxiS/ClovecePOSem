@@ -17,8 +17,8 @@ public:
     Hrac() = default;
 
     void nastavFigurky();
-    int hodKockou(Kocka kocka);
-    void spravPosun(Figurka zvolenaFigurka, int pocetPoli);
+    int hodKockou(Kocka kocka);                                
+    void spravPosun(Figurka zvolenaFigurka, int pocetPoli);    
     void vypisInfo();
     int getId();
 };
