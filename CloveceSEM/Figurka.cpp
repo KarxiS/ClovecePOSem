@@ -76,6 +76,9 @@ void Figurka::posunSa(int oKolko) {
     for (int i = 0; i < oKolko; ++i) {
 
         if (finalPolicko == nullptr || finalPolicko->getDalsie() == nullptr) {
+            this->aktualnePolicko->setFigurka(nullptr);
+            this->aktualnePolicko=localPolicko;
+            this->aktualnePolicko->setFigurka(this);
             return;
         }
 
@@ -85,7 +88,7 @@ void Figurka::posunSa(int oKolko) {
             finalPolicko = finalPolicko->getDomcek();
             this->aktualnePolicko->setFigurka(this);
             localPolicko->setFigurka(nullptr);
-            continue;
+
 
         }
         finalPolicko=finalPolicko->getDalsie();
@@ -99,6 +102,9 @@ void Figurka::posunSa(int oKolko) {
     }
 
     if(finalPolicko->getAktualnaFigurka()!= nullptr &&finalPolicko->getAktualnaFigurka()->getZnak()==this->getZnak()) {
+        this->aktualnePolicko->setFigurka(nullptr);
+        this->aktualnePolicko=localPolicko;
+        this->aktualnePolicko->setFigurka(this);
         return;
     }
 

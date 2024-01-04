@@ -52,9 +52,10 @@ void Hra::spravTah()
     Figurka& figurka2 = hracNaTahu2.figurky[0];
     figurka2.setAktualnePolicko(&policko2);
 
-    figurka2.posunSa(9);
-    figurka2.posunSa(1);
-    figurka.posunSa(1);
+    figurka2.posunSa(10);
+    figurka2.posunSa(40);
+    ;
+
 
 
     hraciaDoska.zobrazHraciePole();
