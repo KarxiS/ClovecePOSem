@@ -19,6 +19,7 @@ public:
     void pridajHraca(Hrac& hrac);
     void vytvorCestu(int i, int j, int noveI, int noveJ);
     void vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd, int hrac);
+    Policko& getSpawn(char hrac);
     void zobrazHraciePole();
     void zobrazHraciePoleDebugCesty();
 

@@ -20,6 +20,6 @@ public:
     int hodKockou(Kocka kocka);
     void spravPosun(Figurka zvolenaFigurka, int pocetPoli);
     void vypisInfo();
-    int getId();
+    char getId();
 };
 

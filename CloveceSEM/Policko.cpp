@@ -11,7 +11,7 @@ Policko::Policko(int cislo, char znak) {
     this->dalsie= nullptr;
     this->aktualnaFigurka= nullptr;
     this->domcek= nullptr;
-
+    this->jeDomcekSpawn=false;
 
 }
 
@@ -53,10 +53,12 @@ bool Policko::isEndDomcek(){
     return this->jeDomcekEnd;
 }
 
-Policko& Policko::setSpawn(char hrac) {
+
+
+Policko& Policko::setDomcekVstup(char hrac) {
 
     this->hracDomcekVystup=hrac;
-    this->jeDomcekSpawn=true;
+
     return *this;
 }
 
@@ -122,6 +124,14 @@ void Policko::setDomcek(Policko *domcek) {
     Policko::domcek = domcek;
 }
 
-int Policko::getHracDomcekVystup() const {
+char Policko::getHracDomcekVystup() const {
     return hracDomcekVystup;
+}
+
+bool Policko::isJeDomcekSpawn() const {
+    return jeDomcekSpawn;
+}
+
+void Policko::setJeDomcekSpawn(bool jeDomcekSpawn) {
+    Policko::jeDomcekSpawn = jeDomcekSpawn;
 }

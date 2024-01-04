@@ -22,7 +22,7 @@ public:
     void posunSa(int oKolko);
 
 
-    Policko *getAktualnePolicko() const;
+    Policko* getAktualnePolicko() const;
 
     Figurka& setAktualnePolicko(Policko *aktualnePolickoL);
 

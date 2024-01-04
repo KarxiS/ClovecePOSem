@@ -42,15 +42,12 @@ void Hra::spravTah()
     //vykonanie akcie hraca
     int padnuteCislo = hracNaTahu.hodKockou(this->kocka);
     //hracNaTahu.spravPosun(hracNaTahu.figurky.at(rand()%4), padnuteCislo);
-    Policko& policko = *hraciaDoska.getPolicko(1,4);
+    Policko& policko = hraciaDoska.getSpawn(hracNaTahu.getId());
     Figurka& figurka = hracNaTahu.figurky[0];
     figurka.setAktualnePolicko(&policko);
-    Hrac& hracNaTahu2 = hraci.at(1);
-    Policko& policko2 = *hraciaDoska.getPolicko(4,4);
-    Figurka& figurka2 = hracNaTahu2.figurky[1];
-    figurka2.setAktualnePolicko(&policko2);
 
-    figurka.posunSa(3);
+
+
     hraciaDoska.zobrazHraciePole();
 
 

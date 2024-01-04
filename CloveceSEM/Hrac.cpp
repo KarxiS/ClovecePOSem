@@ -56,6 +56,6 @@ void Hrac::vypisInfo()
     std::cout << "meno hraca: " << this->meno << std::endl;
 }
 
-int Hrac::getId() {
+char Hrac::getId() {
     return this->id;
 }
