@@ -109,9 +109,15 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd, int 
             hraciePole[y][xStart] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(0,
                                                                                                    smerY).setDomcekVstup(
                     hrac);
+
             hraciePole[y][xStart].setDalsie(&hraciePole[y+smerY][xStart]);
 
         }
+
+        hraciePole[yEnd ][xStart].setDalsie(nullptr);
+
+
+
         hraciePole[yStart-smerY][xStart].setDomcek(&hraciePole[yStart][xStart]);
     }
     if(yStart == yEnd){
@@ -121,9 +127,14 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd, int 
             hraciePole[yStart][x] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(smerX,
                                                                                                    0).setDomcekVstup(
                     hrac);
+
+
             hraciePole[yStart][x].setDalsie(&hraciePole[yStart][x+smerX]);
 
         }
+
+        hraciePole[yStart ][xEnd].setDalsie(nullptr);
+
         hraciePole[yStart][xStart-smerX].setDomcek(&hraciePole[yStart][xStart]);
     }
 }
