@@ -78,9 +78,11 @@ void Figurka::posunSa(int oKolko) {
 
         else if (finalPolicko->getDomcek() != nullptr && finalPolicko->getDomcek()->getHracDomcekVystup() == this->getZnak()) {
             this->aktualnePolicko = finalPolicko->getDomcek();
+            finalPolicko = finalPolicko->getDomcek();
             this->aktualnePolicko->setFigurka(this);
             localPolicko->setFigurka(nullptr);
-            return;
+            continue;
+
         }
         finalPolicko=finalPolicko->getDalsie();
 

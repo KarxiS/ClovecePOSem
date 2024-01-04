@@ -47,6 +47,8 @@ void Hra::spravTah()
     figurka.setAktualnePolicko(&policko);
     figurka.posunSa(39);
     figurka.posunSa(2);
+    figurka.posunSa(2);
+    figurka.posunSa(1);
 
 
 
