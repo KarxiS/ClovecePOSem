@@ -1,19 +1,20 @@
-#include "my_socket.h"
-#include <stdexcept>
-#include <ws2tcpip.h>
+#include <iostream>
 #include <winsock2.h>
+#include <WS2tcpip.h>
+#include <string>
 
-#define SOCKET_TERMINATE_CHAR '\0'
+#pragma comment(lib, "ws2_32.lib")
 
-const char* MySocket::endMessage = ":end";
-
-MySocket* MySocket::createConnection(std::string hostName, short port) {
+int main() {
+    //Pripojenie na server
     WSADATA wsaData;
+    std::string hostName = "frios2.fri.uniza.sk";
+    short port = 12499;
+
     struct addrinfo *result = NULL;
     struct addrinfo hints;
     int iResult;
 
-    // Initialize Winsock
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
         throw std::runtime_error("WSAStartup failed with error: " + std::to_string(iResult) + "\n");
@@ -52,39 +53,30 @@ MySocket* MySocket::createConnection(std::string hostName, short port) {
         WSACleanup();
         throw std::runtime_error("Unable to connect to server.\n");
     }
+    std::cout << "Pripojenie na server bolo uspesne." << std::endl;
 
-    return new MySocket(connectSocket);
-}
 
-MySocket::MySocket(SOCKET socket) :
-    connectSocket(socket) {
 
-}
+    // Hráč môže hodit kockou kliknutím na Enter
+    // Jednoduchý while loop na opakované hody
+    while (true) {
+        std::cout << "Stlacte Enter pre hod kockou..\n";
+        std::cin.get();
 
-MySocket::~MySocket() {
-    if (this->connectSocket != INVALID_SOCKET) {
-        closesocket(this->connectSocket);
-        this->connectSocket = INVALID_SOCKET;
+        char action = 'h';
+        send(connectSocket, &action, sizeof(action), 0);     //posielanie na server - klient vykonal akciu
+
+        int diceResult;
+        recv(connectSocket, reinterpret_cast<char*>(&diceResult), sizeof(diceResult), 0);    //prijimanie zo serveru
+
+        std::cout << "Hodil si: " << diceResult << std::endl;
+
+        // Ďalšia logika hry by sa vykonávala tu
+
+        Sleep(1000);  // Čakáme na simuláciu ďalšieho kola
     }
+
+    closesocket(connectSocket);
     WSACleanup();
+    return 0;
 }
-
-void MySocket::sendData(const std::string &data) {
-    size_t data_length = data.length();
-    char* buffer = (char*)calloc(data_length + 1, sizeof(char));
-    memcpy(buffer, data.c_str(), data_length);
-    buffer[data_length] = SOCKET_TERMINATE_CHAR;
-
-    int iResult = send(connectSocket, buffer, data_length + 1, 0 );
-    if (iResult == SOCKET_ERROR) {
-        throw std::runtime_error("send failed with error: " + std::to_string(WSAGetLastError()) + "\n");
-    }
-    free(buffer);
-    buffer = NULL;
-}
-
-void MySocket::sendEndMessage() {
-    this->sendData(this->endMessage);
-}
-
-#undef SOCKET_TERMINATE_CHAR
