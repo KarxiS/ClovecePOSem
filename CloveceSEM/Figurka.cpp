@@ -29,6 +29,10 @@ Figurka& Figurka::setAktualnePolicko(Policko* aktualnePolickoL) {
         this->aktualnePolicko->setFigurka(nullptr);
     }
 
+    if(aktualnePolickoL->getAktualnaFigurka()!= nullptr){
+        aktualnePolickoL->getAktualnaFigurka()->vyhodFigurku();
+    }
+
     this->aktualnePolicko = aktualnePolickoL;
     aktualnePolickoL->setAktualnaFigurka(this);
     return *this;
