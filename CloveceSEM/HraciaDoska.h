@@ -9,7 +9,7 @@ class HraciaDoska {
 private:
 
 
-    std::vector<std::vector<Policko>> hraciePolePolicko;
+
     int pocitadlo_cesta = 10;
     std::vector<std::vector<Policko>> hraciePole;
 public:

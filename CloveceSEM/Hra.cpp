@@ -45,6 +45,8 @@ void Hra::spravTah()
     Policko& policko = hraciaDoska.getSpawn(hracNaTahu.getId());
     Figurka& figurka = hracNaTahu.figurky[0];
     figurka.setAktualnePolicko(&policko);
+    figurka.posunSa(39);
+    figurka.posunSa(2);
 
 
 
