@@ -5,6 +5,12 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
+struct StavHry {
+    //HraciaDoska hraciaDoska;
+    int hodKockou;
+    bool jeKoniec;
+};
+
 int main() {
     //Pripojenie na server
     WSADATA wsaData;
@@ -55,13 +61,13 @@ int main() {
         WSACleanup();
         throw std::runtime_error("Unable to connect to server.\n");
     }
+
     std::cout << "Pripojenie na server bolo uspesne." << std::endl;
-
-
+    StavHry stavHry;
 
     // Hráč môže hodit kockou kliknutím na Enter
     // Jednoduchý while loop na opakované hody
-    while (true) {
+    while (!stavHry.jeKoniec) {
         std::cout << "Stlacte Enter pre hod kockou..\n";
         std::cin.get();
 
@@ -69,13 +75,18 @@ int main() {
         send(connectSocket, &action, sizeof(action), 0);     //posielanie na server - klient vykonal akciu
 
         int diceResult;
-        recv(connectSocket, reinterpret_cast<char*>(&diceResult), sizeof(diceResult), 0);    //prijimanie zo serveru
+        //recv(connectSocket, reinterpret_cast<char*>(&diceResult), sizeof(diceResult), 0);    //prijimanie zo serveru
+        recv(connectSocket, reinterpret_cast<char*>(&stavHry), sizeof(stavHry), 0);
 
-        std::cout << "Hodil si: " << diceResult << std::endl;
+        // Zobrazenie informácií hráčovi
+        std::cout << "Hodil si: " << stavHry.hodKockou << std::endl;
+
+        // Zobrazenie hracieho poľa
+        // stavHry.hraciaDoska.zobrazHraciePole();
 
         // Ďalšia logika hry by sa vykonávala tu
 
-        Sleep(1000);  // Čakáme na simuláciu ďalšieho kola
+        Sleep(1000);  // Simulácia ďalšieho kola
     }
 
     closesocket(connectSocket);
