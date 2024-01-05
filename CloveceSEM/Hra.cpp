@@ -55,8 +55,8 @@ void Hra::spravTah(int hrac, int cisloFigurky, int oKolko)
     this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
 }
 
-void Hra::ukazVysledok()
+std::string Hra::ukazVysledok()
 {
-    hraciaDoska.zobrazHraciePole();
+    return hraciaDoska.getHraciePole();
 }
 

@@ -26,5 +26,7 @@ public:
     void nastavSpawnPoint();
 
     Policko *getPolicko(int x, int y);
+
+    std::string getHraciePole();
 };
 

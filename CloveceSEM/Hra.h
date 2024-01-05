@@ -19,6 +19,6 @@ public:
     void zacniHru();
     void spravTah(int hrac, int cisloFigurky, int oKolko);
     int hodKockou();
-    void ukazVysledok();
+    std::string ukazVysledok();
 };
 

@@ -17,6 +17,7 @@ add_executable(socket_server main.cpp
 
         ../CloveceSEM/Policko.cpp
         ../CloveceSEM/Policko.h
+        ../CloveceSEM/Hra.cpp
 )
 
 target_link_libraries(socket_server pthread)

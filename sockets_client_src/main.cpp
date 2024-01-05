@@ -6,16 +6,16 @@
 #pragma comment(lib, "ws2_32.lib")
 
 struct StavHry {
-    //HraciaDoska hraciaDoska;
+    std::string hraciaDoska;
     int hodKockou;
-    bool jeKoniec;
+    bool jeKoniec=false;
 };
 
 int main() {
     //Pripojenie na server
     WSADATA wsaData;
     std::string hostName = "frios2.fri.uniza.sk";
-    short port = 12500;
+    short port = 12499;
 
     struct addrinfo *result = NULL;
     struct addrinfo hints;
@@ -74,15 +74,27 @@ int main() {
         char action = 'h';
         send(connectSocket, &action, sizeof(action), 0);     //posielanie na server - klient vykonal akciu
 
-        int diceResult;
-        //recv(connectSocket, reinterpret_cast<char*>(&diceResult), sizeof(diceResult), 0);    //prijimanie zo serveru
-        recv(connectSocket, reinterpret_cast<char*>(&stavHry), sizeof(stavHry), 0);
+        // Receive the length of the string
+        size_t length;
+        recv(connectSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
+
+        // Receive the string data
+        char* buffer = new char[length];
+        recv(connectSocket, buffer, length, 0);
+        stavHry.hraciaDoska = std::string(buffer, length);
+        delete[] buffer;
+
+        // Receive the hodKockou field
+        recv(connectSocket, reinterpret_cast<char*>(&stavHry.hodKockou), sizeof(stavHry.hodKockou), 0);
+
+        // Receive the jeKoniec field
+        recv(connectSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
 
         // Zobrazenie informácií hráčovi
         std::cout << "Hodil si: " << stavHry.hodKockou << std::endl;
 
         // Zobrazenie hracieho poľa
-        // stavHry.hraciaDoska.zobrazHraciePole();
+        std::cout << stavHry.hraciaDoska << std::endl; // Display the game board
 
         // Ďalšia logika hry by sa vykonávala tu
 
@@ -92,4 +104,5 @@ int main() {
     closesocket(connectSocket);
     WSACleanup();
     return 0;
+
 }

@@ -155,6 +155,20 @@ void HraciaDoska::zobrazHraciePole() {
 }
 
 
+std::string HraciaDoska::getHraciePole() {
+    std::string result;
+    for (int i = 0; i < 11; ++i) {
+        for (int j = 0; j < 11; ++j) {
+            result += hraciePole[i][j].getZnak();
+            result += " | ";
+        }
+        result += "\n";
+    }
+    return result;
+}
+
+
+
 void HraciaDoska::zobrazHraciePoleDebugCesty() {
     std::cout << "*********Debug**********"<<std::endl;
     for (int i = 0; i < 11; ++i) {
