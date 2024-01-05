@@ -11,6 +11,13 @@
 std::mutex diceMutex;
 int diceResult;
 
+struct StavHry {
+    //HraciaDoska hraciaDoska;
+    //Kocka kocka;
+    int hodKockou;
+    bool jeKoniec;
+};
+
 void handleClient(int clientSocket, int playerId) {
     while (true) {
         // Prijatie akcie od klienta (hod kockou)
@@ -24,9 +31,15 @@ void handleClient(int clientSocket, int playerId) {
         // Simulácia hodu kockou
         std::lock_guard<std::mutex> lock(diceMutex);
         diceResult = rand() % 6 + 1;
+        //diceResult = kocka.hodkocou();
+
+        // Aktualizácia stavu hry
+        StavHry stavHry;
+        stavHry.hodKockou = diceResult;
 
         // Odošleme klientovi výsledek hodu
-        send(clientSocket, reinterpret_cast<char*>(&diceResult), sizeof(diceResult), 0);
+        //send(clientSocket, reinterpret_cast<char*>(&diceResult), sizeof(diceResult), 0);
+        send(clientSocket, reinterpret_cast<char*>(&stavHry), sizeof(stavHry), 0);
         std::cout << "Hráč " << playerId << " hodil kockou a získal: " << diceResult << std::endl;
     }
 
