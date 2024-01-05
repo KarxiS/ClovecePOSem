@@ -7,12 +7,14 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include "../CloveceSEM/Hra.h"
 
 std::mutex diceMutex;
 int diceResult;
 
 struct StavHry {
-    //HraciaDoska hraciaDoska;
+    HraciaDoska hraciaDoska;
+    Hra hra;
     //Kocka kocka;
     int hodKockou;
     bool jeKoniec;

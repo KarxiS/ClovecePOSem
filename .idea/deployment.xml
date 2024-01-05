@@ -10,11 +10,10 @@
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/sockets_client_src/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/socket_server_src/cmake-build-debug" />
-            <excludedPath local="true" path="$PROJECT_DIR$/sockets_client_src/cmake-build-debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/socket_server_src/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/socket_server_src/socket_server_src/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/CloveceSEM/cmake-build-debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
-            <excludedPath local="true" path="$PROJECT_DIR$/CloveceSEM/cmake-build-debug" />
           </excludedPaths>
         </serverdata>
       </paths>
