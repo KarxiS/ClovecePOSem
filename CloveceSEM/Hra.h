@@ -17,7 +17,8 @@ public:
     Hra();
     void zapisHraca(Hrac& hrac);
     void zacniHru();
-    void spravTah();
+    void spravTah(int hrac, int cisloFigurky, int oKolko);
+    int hodKockou();
     void ukazVysledok();
 };
 

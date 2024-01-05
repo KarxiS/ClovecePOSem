@@ -36,32 +36,21 @@ void Hra::zacniHru()
 
 }
 
-void Hra::spravTah()
+void Hra::spravTah(int hrac, int cisloFigurky, int oKolko)
 {
-    Hrac& hracNaTahu = hraci.at(0);
+    Hrac& hracNaTahu = hraci.at(hrac);
     //vykonanie akcie hraca
-    int padnuteCislo = hracNaTahu.hodKockou(this->kocka);
+
+    Figurka& figurka = hracNaTahu.figurky[cisloFigurky-1];
+
+    if(figurka.getStartovaciePolicko()==figurka.getAktualnePolicko()&& oKolko==6){
+        Policko& policko = hraciaDoska.getSpawn(hracNaTahu.getId());
+        figurka.setAktualnePolicko(&policko);
+        return;
+    }
     //hracNaTahu.spravPosun(hracNaTahu.figurky.at(rand()%4), padnuteCislo);
     Policko& policko = hraciaDoska.getSpawn(hracNaTahu.getId());
-    Figurka& figurka = hracNaTahu.figurky[0];
-    figurka.setAktualnePolicko(&policko);
-
-
-    Hrac& hracNaTahu2 = hraci.at(1);
-    Policko& policko2 = hraciaDoska.getSpawn(hracNaTahu2.getId());
-    Figurka& figurka2 = hracNaTahu2.figurky[0];
-    figurka2.setAktualnePolicko(&policko2);
-
-    figurka2.posunSa(10);
-    figurka2.posunSa(40);
-    ;
-
-
-
-    hraciaDoska.zobrazHraciePole();
-
-
-    hraciaDoska.zobrazHraciePole();
+    figurka.posunSa(oKolko);
     //aktualizacia hraca pre dalsie kolo
     this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
 }

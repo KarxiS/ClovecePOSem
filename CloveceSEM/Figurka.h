@@ -12,6 +12,10 @@ private:
     void setSuradnicaX(int x);
     void setSuradnicaY(int y);
     Policko* aktualnePolicko;
+    Policko *startovaciePolicko;
+public:
+    Policko *getStartovaciePolicko() const;
+
 public:
     Figurka(char parZnak, int x, int y);
     char getZnak();
@@ -27,7 +31,7 @@ public:
     Figurka& setAktualnePolicko(Policko *aktualnePolickoL);
 
 
-    Policko *startovaciePolicko;
+
 
     void setStartovaciePolicko(Policko* policko);
 };
