@@ -51,7 +51,7 @@ int main() {
     freeaddrinfo(result);
 
     if (connectSocket == INVALID_SOCKET) {
-        printf("Unable to connect to server!\n");
+        printf("Nepodarilo sa pripojit na server!\n");
         WSACleanup();
         throw std::runtime_error("Unable to connect to server.\n");
     }
