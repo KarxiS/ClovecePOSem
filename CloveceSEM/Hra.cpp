@@ -46,11 +46,12 @@ void Hra::zacniHru()
             std::cout << "Zadali ste nespravne cislo! skuste znova";
             std::cin >> cisloFigurky;
         }
-        hracPoVykonaniTahu = this->hraci.at(hrac);
 
         //vykonanie tahu hracom na rade
         this->spravTah(hrac, cisloFigurky, oKolko);
         hraciaDoska.zobrazHraciePole();
+        hracPoVykonaniTahu = this->hraci.at(this->aktualnyHrac-1);
+
         cisloKola++;
     } while (!hracPoVykonaniTahu.maFigurkyCiel());
 
