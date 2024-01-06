@@ -30,6 +30,7 @@ void Hra::zacniHru()
     int hrac;
     int cisloFigurky;
     int oKolko;
+    Hrac hracPoVykonaniTahu;
 
     int cisloKola=1;
     do {
@@ -41,13 +42,17 @@ void Hra::zacniHru()
         oKolko = this->kocka.hodKockou();
         std::cout << this->hraci.at(hrac).getMeno() << "(" << this->hraci.at(hrac).getId() << ")" <<", ktoru figurku(1-4) chcete posunut o " << oKolko << " :" << std::endl;
         std::cin >> cisloFigurky;
+        if(cisloFigurky < 1 || cisloFigurky > 4){
+            std::cout << "Zadali ste nespravne cislo! skuste znova";
+            std::cin >> cisloFigurky;
+        }
+        hracPoVykonaniTahu = this->hraci.at(hrac);
 
         //vykonanie tahu hracom na rade
-        this->spravTah(hrac, cisloFigurky+1, oKolko);
+        this->spravTah(hrac, cisloFigurky, oKolko);
         hraciaDoska.zobrazHraciePole();
         cisloKola++;
-    } while (cisloKola!=10);
-
+    } while (!hracPoVykonaniTahu.maFigurkyCiel());
 
 }
 
