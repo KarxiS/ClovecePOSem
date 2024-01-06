@@ -21,5 +21,6 @@ public:
     void spravPosun(Figurka zvolenaFigurka, int pocetPoli);
     void vypisInfo();
     char getId();
+    std::string getMeno();
 };
 

@@ -24,15 +24,30 @@ void Hra::zacniHru()
     for (int i = 0; i < hraci.size(); ++i) {
         hraciaDoska.pridajHraca(hraci.at(i));
     };
+    //zobrazenie hracieho pola, tesne pred zacatim hry
     hraciaDoska.zobrazHraciePole();
 
-    hraciaDoska.zobrazHraciePoleDebugCesty();
-    /*
+    int hrac;
+    int cisloFigurky;
+    int oKolko;
+
+    int cisloKola=1;
     do {
-        this->spravTah();
+        std::cout << std::endl;
+        std::cout << "--------------------------Kolo " << cisloKola << " --------------------------\n";
+
+        //v metode spravTah sa aktualizuje dalsi hrac
+        hrac = this->aktualnyHrac;
+        oKolko = this->kocka.hodKockou();
+        std::cout << this->hraci.at(hrac).getMeno() << "(" << this->hraci.at(hrac).getId() << ")" <<", ktoru figurku(1-4) chcete posunut o " << oKolko << " :" << std::endl;
+        std::cin >> cisloFigurky;
+
+        //vykonanie tahu hracom na rade
+        this->spravTah(hrac, cisloFigurky+1, oKolko);
         hraciaDoska.zobrazHraciePole();
-    } while (!this->jeKoniec);
-    */
+        cisloKola++;
+    } while (cisloKola!=10);
+
 
 }
 
@@ -48,7 +63,7 @@ void Hra::spravTah(int hrac, int cisloFigurky, int oKolko)
         figurka.setAktualnePolicko(&policko);
         return;
     }
-    //hracNaTahu.spravPosun(hracNaTahu.figurky.at(rand()%4), padnuteCislo);
+
     Policko& policko = hraciaDoska.getSpawn(hracNaTahu.getId());
     figurka.posunSa(oKolko);
     //aktualizacia hraca pre dalsie kolo

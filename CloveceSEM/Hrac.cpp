@@ -59,3 +59,7 @@ void Hrac::vypisInfo()
 char Hrac::getId() {
     return this->id;
 }
+
+std::string Hrac::getMeno() {
+    return this->meno;
+}

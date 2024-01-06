@@ -61,7 +61,7 @@ void HraciaDoska::pridajHraca(Hrac& hrac)
 void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
 
     if (i == noveI) {
-        // Vertikálna cesta
+        // Vertikï¿½lna cesta
         int krok = (noveJ > j) ? 1 : -1;
         for (int jj = j; jj != noveJ; jj += krok) {
             hraciePole[jj][i] = Policko().setZnak('-').setCislo(pocitadlo_cesta++).odomkniSmer(0,krok);
@@ -77,7 +77,7 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
         }
     }
     else if (j == noveJ) {
-        // Horizontálna cesta
+        // Horizontï¿½lna cesta
         int krok = (noveI > i) ? 1 : -1;
         for (int ii = i; ii != noveI; ii += krok) {
             hraciePole[j][ii] = Policko().setZnak('-').setCislo(pocitadlo_cesta++).odomkniSmer(krok,0);
@@ -103,7 +103,7 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd, int 
     int pocitadloDomcek = 0;
     if(xStart == xEnd){
 
-        // Vertikálna cesta
+        // Vertikï¿½lna cesta
 
         for (int y = yStart; y != yEnd + smerY; y += smerY) {
             hraciePole[y][xStart] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(0,
@@ -140,7 +140,7 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd, int 
 }
 
 void HraciaDoska::zobrazHraciePole() {
-    std::cout << "*********VypisHry**********"<<std::endl;
+    //std::cout << "*********VypisHry**********"<<std::endl;
     for (int i = 0; i < 11; ++i) {
         for (int zvacsenieLoop = 0; zvacsenieLoop < 1; ++zvacsenieLoop) {
             for (int j = 0; j < 11; ++j) {

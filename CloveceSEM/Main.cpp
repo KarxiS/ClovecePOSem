@@ -19,7 +19,5 @@ int main()
     hra.zapisHraca(hrac4);
 
     hra.zacniHru();
-    hra.spravTah(1,1,6);
-    hra.ukazVysledok();
     return 0;
 }
