@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <condition_variable>
 #include "../CloveceSEM/Hra.h"
 
 std::mutex diceMutex;
@@ -16,9 +17,20 @@ struct StavHry {
     std::string hraciaDoska;
     int hodKockou;
     bool jeKoniec;
+    bool naRade;
 };
 
-void handleClient(int clientSocket, int playerId, Hra& hra) {
+struct HraMutex {
+    Hra hra;
+    std::mutex mutex;
+    std::condition_variable hrac;
+    bool obsadene=false;
+    int aktualnyHrac = 0;
+
+
+};
+
+void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
     while (true) {
         // Prijatie akcie od klienta (hod kockou)
         char buffer[256];
@@ -27,18 +39,42 @@ void handleClient(int clientSocket, int playerId, Hra& hra) {
             std::cerr << "Chyba pri citani zo soketu pre hraca " << playerId << std::endl;
             break;
         }
+        std::unique_lock<std::mutex> lockHra(hraMutex.mutex);
+        hraMutex.obsadene=true;
 
+        StavHry stavHry;
+
+        if(playerId!=hraMutex.aktualnyHrac%4){
+            stavHry.naRade=false;
+            send(clientSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
+        }else{
+            stavHry.naRade= true;
+            send(clientSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
+        }
+        while(playerId!=hraMutex.aktualnyHrac%4){
+
+
+
+            hraMutex.hrac.wait(lockHra);
+        }
+        stavHry.naRade=true;
+
+        hraMutex.aktualnyHrac++;
         // Simulácia hodu kockou
         std::lock_guard<std::mutex> lock(diceMutex);
         diceResult = rand() % 6 + 1;
+
         //diceResult = kocka.hodkocou();
 
-        // Aktualizácia stavu hry
-        hra.spravTah(playerId, 1, diceResult); // Assuming 1 is the position of the player's piece
-        StavHry stavHry;
+        // Aktualizácia stavu hrye
+
+        hraMutex.hra.spravTah(playerId, 1, diceResult); // Assuming 1 is the position of the player's piece
+        diceMutex.unlock();
+
         stavHry.hodKockou = diceResult;
-        std::string board = hra.ukazVysledok();
-        std::cout<< hra.ukazVysledok();
+        std::string board = hraMutex.hra.ukazVysledok();
+        std::cout<< hraMutex.hra.ukazVysledok();
+        lockHra.unlock();
         // Send the length of the string
         size_t length = board.size();
         send(clientSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
@@ -53,7 +89,8 @@ void handleClient(int clientSocket, int playerId, Hra& hra) {
         send(clientSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
 
         std::cout << "Hrac " << playerId << " hodil kockou a ziskal: " << diceResult << std::endl;
-
+        hraMutex.obsadene=false;
+        hraMutex.hrac.notify_all();
 
 }
 }
@@ -65,16 +102,16 @@ int main() {
     Hrac hrac2("Matus", '2');
     Hrac hrac3("Kiko", '3');
     Hrac hrac4("Rasto", '4');
+    HraMutex hraMutex;
 
-    Hra hra;
-    hra.zapisHraca(hrac1);
-    hra.zapisHraca(hrac2);
-    hra.zapisHraca(hrac3);
-    hra.zapisHraca(hrac4);
+    hraMutex.hra.zapisHraca(hrac1);
+    hraMutex.hra.zapisHraca(hrac2);
+    hraMutex.hra.zapisHraca(hrac3);
+    hraMutex.hra.zapisHraca(hrac4);
 
-    hra.zacniHru();
+    hraMutex.hra.zacniHru();
 
-    short port = 12500;
+    short port = 12502;
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
@@ -93,12 +130,12 @@ int main() {
 
     std::cout << "Server je spusteny a pocuva na porte " << port << std::endl;
 
-    int playerId = 1;
+    int playerId = 0;
     while (true) {
         int clientSocket = accept(serverSocket, nullptr, nullptr);
 
         // Vytvorenie noveho vlakna pre obsluhu noveho klienta
-        std::thread(handleClient, clientSocket, playerId, std::ref(hra)).detach();
+        std::thread(handleClient, clientSocket, playerId++, std::ref(hraMutex)).detach();
 
         playerId++;
         if (playerId > 4) {
