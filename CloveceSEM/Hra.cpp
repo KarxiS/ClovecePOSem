@@ -50,7 +50,7 @@ void Hra::zacniHru()
         //vykonanie tahu hracom na rade
         this->spravTah(hrac, cisloFigurky, oKolko);
         hraciaDoska.zobrazHraciePole();
-        hracPoVykonaniTahu = this->hraci.at(this->aktualnyHrac-1);
+        hracPoVykonaniTahu = this->hraci.at((this->aktualnyHrac - 1 + hraci.size()) % hraci.size());
 
         cisloKola++;
     } while (!hracPoVykonaniTahu.maFigurkyCiel());
