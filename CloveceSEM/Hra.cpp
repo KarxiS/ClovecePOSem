@@ -55,6 +55,7 @@ void Hra::zacniHru()
         cisloKola++;
     } while (!hracPoVykonaniTahu.maFigurkyCiel());
 
+    this->jeKoniec= true;
 }
 
 void Hra::spravTah(int hrac, int cisloFigurky, int oKolko)
