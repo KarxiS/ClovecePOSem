@@ -24,7 +24,7 @@ void handleClient(int clientSocket, int playerId, Hra& hra) {
         char buffer[256];
         ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
         if (bytesRead <= 0) {
-            std::cerr << "Chyba pri čítaní zo soketu pre hráča " << playerId << std::endl;
+            std::cerr << "Chyba pri citani zo soketu pre hraca " << playerId << std::endl;
             break;
         }
 
@@ -37,8 +37,8 @@ void handleClient(int clientSocket, int playerId, Hra& hra) {
         hra.spravTah(playerId, 1, diceResult); // Assuming 1 is the position of the player's piece
         StavHry stavHry;
         stavHry.hodKockou = diceResult;
-        std::string board = hra.ukazVysledok(); // Get the game board string
-
+        std::string board = hra.ukazVysledok();
+        std::cout<< hra.ukazVysledok();
         // Send the length of the string
         size_t length = board.size();
         send(clientSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
@@ -52,9 +52,9 @@ void handleClient(int clientSocket, int playerId, Hra& hra) {
         // Send the jeKoniec field
         send(clientSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
 
-        std::cout << "Hráč " << playerId << " hodil kockou a získal: " << diceResult << std::endl;
+        std::cout << "Hrac " << playerId << " hodil kockou a ziskal: " << diceResult << std::endl;
 
-        close(clientSocket);
+
 }
 }
 
@@ -74,7 +74,7 @@ int main() {
 
     hra.zacniHru();
 
-    short port = 12499;
+    short port = 12500;
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));

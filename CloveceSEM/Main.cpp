@@ -18,6 +18,6 @@ int main()
     hra.zapisHraca(hrac3);
     hra.zapisHraca(hrac4);
 
-    hra.zacniHru();
+    hra.inicializujHru();
     return 0;
 }

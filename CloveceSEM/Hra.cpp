@@ -27,36 +27,38 @@ void Hra::zacniHru()
     //zobrazenie hracieho pola, tesne pred zacatim hry
     hraciaDoska.zobrazHraciePole();
 
-    int hrac;
-    int cisloFigurky;
-    int oKolko;
-    Hrac hracPoVykonaniTahu;
-
-    int cisloKola=1;
-    do {
-        std::cout << std::endl;
-        std::cout << "--------------------------Kolo " << cisloKola << " --------------------------\n";
-
-        //v metode spravTah sa aktualizuje dalsi hrac
-        hrac = this->aktualnyHrac;
-        oKolko = this->kocka.hodKockou();
-        std::cout << this->hraci.at(hrac).getMeno() << "(" << this->hraci.at(hrac).getId() << ")" <<", ktoru figurku(1-4) chcete posunut o " << oKolko << " :" << std::endl;
-        std::cin >> cisloFigurky;
-        if(cisloFigurky < 1 || cisloFigurky > 4){
-            std::cout << "Zadali ste nespravne cislo! skuste znova";
-            std::cin >> cisloFigurky;
-        }
-
-        //vykonanie tahu hracom na rade
-        this->spravTah(hrac, cisloFigurky, oKolko);
-        hraciaDoska.zobrazHraciePole();
-        hracPoVykonaniTahu = this->hraci.at((this->aktualnyHrac - 1 + hraci.size()) % hraci.size());
-
-        cisloKola++;
-    } while (!hracPoVykonaniTahu.maFigurkyCiel());
-
-    this->jeKoniec= true;
+//    int hrac;
+//    int cisloFigurky;
+//    int oKolko;
+//    Hrac hracPoVykonaniTahu;
+//
+//    int cisloKola=1;
+//    do {
+//        std::cout << std::endl;
+//        std::cout << "--------------------------Kolo " << cisloKola << " --------------------------\n";
+//
+//        //v metode spravTah sa aktualizuje dalsi hrac
+//        hrac = this->aktualnyHrac;
+//        oKolko = this->kocka.hodKockou();
+//        std::cout << this->hraci.at(hrac).getMeno() << "(" << this->hraci.at(hrac).getId() << ")" <<", ktoru figurku(1-4) chcete posunut o " << oKolko << " :" << std::endl;
+//        std::cin >> cisloFigurky;
+//        if(cisloFigurky < 1 || cisloFigurky > 4){
+//            std::cout << "Zadali ste nespravne cislo! skuste znova";
+//            std::cin >> cisloFigurky;
+//        }
+//
+//        //vykonanie tahu hracom na rade
+//        this->spravTah(hrac, cisloFigurky, oKolko);
+//        hraciaDoska.zobrazHraciePole();
+//        hracPoVykonaniTahu = this->hraci.at((this->aktualnyHrac - 1 + hraci.size()) % hraci.size());
+//
+//        cisloKola++;
+//    } while (!hracPoVykonaniTahu.maFigurkyCiel());
+//
+//    this->jeKoniec= true;
 }
+
+
 
 void Hra::spravTah(int hrac, int cisloFigurky, int oKolko)
 {
