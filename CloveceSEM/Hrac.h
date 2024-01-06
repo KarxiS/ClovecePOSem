@@ -17,8 +17,6 @@ public:
     Hrac() = default;
 
     void nastavFigurky();
-    int hodKockou(Kocka kocka);
-    void spravPosun(Figurka zvolenaFigurka, int pocetPoli);
     void vypisInfo();
     char getId();
     std::string getMeno();

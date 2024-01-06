@@ -40,20 +40,9 @@ void Hrac::nastavFigurky()
     }
 }
 
-int Hrac::hodKockou(Kocka kocka)
-{
-    return kocka.hodKockou();
-}
-
-void Hrac::spravPosun(Figurka zvolenaFigurka, int pocetPoli)
-{
-
-
-}
-
 void Hrac::vypisInfo()
 {
-    std::cout << "meno hraca: " << this->meno << std::endl;
+    std::cout << "meno hraca: " << this->meno << "id hraca: " << this->id <<std::endl;
 }
 
 char Hrac::getId() {
