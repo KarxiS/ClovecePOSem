@@ -20,5 +20,6 @@ public:
     void vypisInfo();
     char getId();
     std::string getMeno();
+    bool maFigurkyCiel();
 };
 
