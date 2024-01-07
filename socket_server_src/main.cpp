@@ -13,7 +13,7 @@
 std::mutex diceMutex;
 int diceResult;
 struct LocalInfo{
-    int playerID=-1;
+    char playerID='0';
 };
 struct StavHry {
     std::string hraciaDoska;
@@ -21,7 +21,7 @@ struct StavHry {
     bool jeKoniec=false;
     bool naRade=false;
     int hracNaTahu=-1;
-    int playerID=-1;
+    char playerID='0';
 };
 
 struct HraMutex {
@@ -37,14 +37,20 @@ struct HraMutex {
 
 void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
     LocalInfo localInfo;
-    localInfo.playerID=playerId;
+
+
+    localInfo.playerID=playerId+'0';
+
+    Hrac hrac("Jozef", localInfo.playerID);
+    hraMutex.hra.zapisHraca(hrac);
     send(clientSocket, reinterpret_cast<char*>(&localInfo.playerID), sizeof(localInfo.playerID), 0);
     while (true) {
         // Prijatie akcie od klienta (hod kockou)
         char buffer[256];
         ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
         if (bytesRead <= 0) {
-            std::cerr << "Hrac" << playerId <<" sa odpojil" << std::endl;
+            std::cerr << "Hrac " << playerId <<" sa odpojil" << std::endl;
+            hraMutex.hra.odpisHraca(playerId);
             break;
         }
         std::unique_lock<std::mutex> lockHra(hraMutex.mutex);
@@ -112,16 +118,11 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
-    Hrac hrac1("Jozef", '1');
-    Hrac hrac2("Matus", '2');
-    Hrac hrac3("Kiko", '3');
-    Hrac hrac4("Rasto", '4');
+
+
     HraMutex hraMutex;
 
-    hraMutex.hra.zapisHraca(hrac1);
-    hraMutex.hra.zapisHraca(hrac2);
-    hraMutex.hra.zapisHraca(hrac3);
-    hraMutex.hra.zapisHraca(hrac4);
+
 
     hraMutex.hra.zacniHru();
 
@@ -152,10 +153,10 @@ int main() {
 
 
         // Vytvorenie noveho vlakna pre obsluhu noveho klienta
-        std::thread(handleClient, clientSocket, playerId++, std::ref(hraMutex)).detach();
+        std::thread(handleClient, clientSocket, playerId, std::ref(hraMutex)).detach();
 
         playerId++;
-        if (playerId > 4) {
+        if (playerId >= 4) {
             playerId = 1;
         }
     }

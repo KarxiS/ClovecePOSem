@@ -6,7 +6,7 @@
 #pragma comment(lib, "ws2_32.lib")
 
 struct LocalInfo{
-    int playerID=-1;
+    char playerID='0';
     std::string meno;
 };
 
@@ -16,7 +16,7 @@ struct StavHry {
     bool jeKoniec=false;
     bool naRade = false;
     int hracNaTahu=-1;
-    int playerID=-1;
+    char playerID='0';
 };
 
 int main() {

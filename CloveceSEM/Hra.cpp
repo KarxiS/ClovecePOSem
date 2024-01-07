@@ -1,5 +1,6 @@
 #include "Hra.h"
 #include <iostream>
+#include <set>
 
 Hra::Hra()
 {
@@ -11,6 +12,7 @@ Hra::Hra()
 void Hra::zapisHraca(Hrac& hrac)
 {
     if (hraci.size() < 4) {
+
         hraci.push_back(hrac);
         hraciaDoska.pridajHraca(hraci.at(hraci.size()-1));
 
@@ -20,6 +22,26 @@ void Hra::zapisHraca(Hrac& hrac)
     }
 
 }
+
+void Hra::odpisHraca(int playerId)
+{
+
+    for (auto it = hraci.begin(); it != hraci.end(); ++it) {
+        if (it->getId()== playerId) {
+            for(Figurka figurka : it->figurky){
+                figurka.setAktualnePolicko(nullptr);
+
+
+            }
+            hraci.erase(it);
+
+            std::cout << "Hrac " << playerId << " bol odstraneny." << std::endl;
+            return;
+        }
+    }
+    std::cout << "Hrac " << playerId << " nebol najdeny." << std::endl;
+}
+
 
 void Hra::zacniHru()
 {
@@ -84,4 +106,18 @@ std::string Hra::ukazVysledok()
 {
     return hraciaDoska.getHraciePole();
 }
+
+char Hra::getVolnePlayerID() {
+    // Create a set of all possible player IDs
+    std::set<char> ids = {'1', '2', '3', '4'};
+
+    // Remove the IDs that are already in use
+    for (Hrac hrac : this->hraci) {
+        ids.erase(hrac.getId());
+    }
+
+    // If there are any IDs left, return the first one. Otherwise, return -1.
+    return ids.empty() ? -1 : *ids.begin();
+}
+
 
