@@ -5,16 +5,25 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
+struct LocalInfo{
+    int playerID=-1;
+    std::string meno;
+    char* cislo;
+};
+
 struct StavHry {
     std::string hraciaDoska;
     int hodKockou;
     bool jeKoniec=false;
     bool naRade = false;
+    int hracNaTahu=-1;
+    int playerID=-1;
 };
 
 int main() {
     //Pripojenie na server
     WSADATA wsaData;
+    LocalInfo localInfo;
     std::string hostName = "frios2.fri.uniza.sk";
     short port = 12502;
 
@@ -62,8 +71,9 @@ int main() {
         WSACleanup();
         throw std::runtime_error("Unable to connect to server.\n");
     }
-
-    std::cout << "Pripojenie na server bolo uspesne." << std::endl;
+    recv(connectSocket, reinterpret_cast<char*>(&localInfo.playerID), sizeof(localInfo.playerID), 0);
+    std::cout << "Pripojenie na server bolo uspesne.\n"
+                 "Ste hrac cislo" <<localInfo.playerID<< std::endl;
     StavHry stavHry;
 
     // Hráč môže hodit kockou kliknutím na Enter
@@ -77,7 +87,13 @@ int main() {
         recv(connectSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
         // Receive the length of the string
         if (stavHry.naRade == false) {
-            std::cout << "pockajte, nie ste na rade! kocka sa hodi hned ako budete na rade!\n";}
+            recv(connectSocket, reinterpret_cast<char*>(&stavHry.hracNaTahu), sizeof(stavHry.hracNaTahu), 0);
+            std::cout << "pockajte, nie ste na rade! kocka sa hodi hned ako budete na rade!\n";
+            std::cout <<"na rade je hrac "<< stavHry.hracNaTahu<<std::endl;
+            std::cout <<"vy ste hrac "<< localInfo.playerID<<std::endl;
+            continue;
+        }
+
         size_t length;
         recv(connectSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
 

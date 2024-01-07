@@ -5,12 +5,15 @@ Hra::Hra()
 {
     this->aktualnyHrac = 0;
     this->jeKoniec = false;
+    hraciaDoska.inicializaciaHraciehoPola();
 }
 
 void Hra::zapisHraca(Hrac& hrac)
 {
     if (hraci.size() < 4) {
         hraci.push_back(hrac);
+        hraciaDoska.pridajHraca(hraci.at(hraci.size()-1));
+
     }
     else {
         std::cout << "V hre su zapojeni len prvi 4 hraci." << std::endl;
@@ -20,10 +23,8 @@ void Hra::zapisHraca(Hrac& hrac)
 
 void Hra::zacniHru()
 {
-    hraciaDoska.inicializaciaHraciehoPola();
-    for (int i = 0; i < hraci.size(); ++i) {
-        hraciaDoska.pridajHraca(hraci.at(i));
-    };
+
+
     //zobrazenie hracieho pola, tesne pred zacatim hry
     hraciaDoska.zobrazHraciePole();
 

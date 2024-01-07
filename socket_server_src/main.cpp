@@ -12,12 +12,16 @@
 
 std::mutex diceMutex;
 int diceResult;
-
+struct LocalInfo{
+    int playerID=-1;
+};
 struct StavHry {
     std::string hraciaDoska;
-    int hodKockou;
-    bool jeKoniec;
-    bool naRade;
+    int hodKockou=0;
+    bool jeKoniec=false;
+    bool naRade=false;
+    int hracNaTahu=-1;
+    int playerID=-1;
 };
 
 struct HraMutex {
@@ -28,15 +32,19 @@ struct HraMutex {
     int aktualnyHrac = 0;
 
 
+
 };
 
 void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
+    LocalInfo localInfo;
+    localInfo.playerID=playerId;
+    send(clientSocket, reinterpret_cast<char*>(&localInfo.playerID), sizeof(localInfo.playerID), 0);
     while (true) {
         // Prijatie akcie od klienta (hod kockou)
         char buffer[256];
         ssize_t bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0);
         if (bytesRead <= 0) {
-            std::cerr << "Chyba pri citani zo soketu pre hraca " << playerId << std::endl;
+            std::cerr << "Hrac" << playerId <<" sa odpojil" << std::endl;
             break;
         }
         std::unique_lock<std::mutex> lockHra(hraMutex.mutex);
@@ -46,10 +54,15 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 
         if(playerId!=hraMutex.aktualnyHrac%4){
             stavHry.naRade=false;
+            stavHry.hracNaTahu=hraMutex.aktualnyHrac%4;
             send(clientSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
+            send(clientSocket, reinterpret_cast<char*>(&stavHry.hracNaTahu), sizeof(stavHry.hracNaTahu), 0);
+
+            continue;
         }else{
             stavHry.naRade= true;
             send(clientSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
+
         }
         while(playerId!=hraMutex.aktualnyHrac%4){
 
@@ -132,7 +145,10 @@ int main() {
 
     int playerId = 0;
     while (true) {
+
+
         int clientSocket = accept(serverSocket, nullptr, nullptr);
+
 
         // Vytvorenie noveho vlakna pre obsluhu noveho klienta
         std::thread(handleClient, clientSocket, playerId++, std::ref(hraMutex)).detach();
