@@ -88,6 +88,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
         std::string board = hraMutex.hra.ukazVysledok();
         std::cout<< hraMutex.hra.ukazVysledok();
         lockHra.unlock();
+
         // Send the length of the string
         size_t length = board.size();
         send(clientSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
