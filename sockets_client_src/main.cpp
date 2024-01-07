@@ -8,7 +8,6 @@
 struct LocalInfo{
     int playerID=-1;
     std::string meno;
-    char* cislo;
 };
 
 struct StavHry {
@@ -76,6 +75,18 @@ int main() {
                  "Ste hrac cislo" <<localInfo.playerID<< std::endl;
     StavHry stavHry;
 
+//TODO
+//    std::cout << "zadajte vase meno"<<std::endl;
+//    std::string meno;
+//    std::cin >> meno;
+//    //dostat velkost stringu
+//    size_t lengthName = meno.size();
+//    send(connectSocket, reinterpret_cast<char*>(&lengthName), sizeof(lengthName), 0);
+//    // Send the string data
+//    send(connectSocket, meno.c_str(), meno.size(), 0);
+//
+//
+//
     // Hráč môže hodit kockou kliknutím na Enter
     // Jednoduchý while loop na opakované hody
     while (!stavHry.jeKoniec) {
