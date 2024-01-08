@@ -2,8 +2,6 @@
 #include <winsock2.h>
 #include <WS2tcpip.h>
 #include <string>
-#include <thread>
-#include <condition_variable>
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -19,34 +17,7 @@ struct StavHry {
     bool naRade = false;
     int hracNaTahu=-1;
     char playerID='0';
-    std::condition_variable citajServer;
-    std::mutex mutex;
 };
-
-
-
-void updateMap(SOCKET connectSocket, StavHry& stavHry) {
-    while (!stavHry.jeKoniec) {
-        std::unique_lock<std::mutex> lock(stavHry.mutex);
-
-        recv(connectSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
-        if(stavHry.jeKoniec){
-            break;
-        }
-        // Receive map length
-        size_t lengthMap;
-        recv(connectSocket, reinterpret_cast<char*>(&lengthMap), sizeof(lengthMap), 0);
-
-        // Receive map
-        char* bufferMap = new char[lengthMap];
-        recv(connectSocket, bufferMap, lengthMap, 0);
-        stavHry.hraciaDoska = std::string(bufferMap, lengthMap);
-        delete[] bufferMap;
-
-        // Display the game board
-        std::cout << stavHry.hraciaDoska << std::endl;
-    }
-}
 
 int main() {
     //Pripojenie na server
@@ -104,9 +75,6 @@ int main() {
                  "Ste hrac cislo" <<localInfo.playerID<< std::endl;
     StavHry stavHry;
 
-
-    std::thread updateThread(updateMap, connectSocket, std::ref(stavHry));
-    updateThread.detach();
     // Hráč môže hodit kockou kliknutím na Enter
     // Jednoduchý while loop na opakované hody
     while (!stavHry.jeKoniec) {
@@ -198,8 +166,6 @@ int main() {
 
         Sleep(1000);  // Simulácia ďalšieho kola
     }
-
-
 
     closesocket(connectSocket);
     WSACleanup();
