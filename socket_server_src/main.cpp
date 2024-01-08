@@ -28,6 +28,7 @@ struct HraMutex {
     Hra hra;
     std::mutex mutex;
     std::condition_variable hrac;
+    std::condition_variable zapisanie;
     bool obsadene=false;
     int aktualnyHrac = 0;
 
