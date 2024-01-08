@@ -120,4 +120,11 @@ char Hra::getVolnePlayerID() {
     return ids.empty() ? -1 : *ids.begin();
 }
 
+bool Hra::jeHracVitaz(Hrac hrac) {
+    if(hrac.maFigurkyCiel()){
+        return true;
+    }
+    return false;
+}
+
 

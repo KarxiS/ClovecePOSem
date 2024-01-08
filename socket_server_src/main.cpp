@@ -13,7 +13,6 @@
 std::mutex diceMutex;
 int diceResult;
 
-
 struct LocalInfo{
     char playerID='0';
 };
@@ -33,18 +32,15 @@ struct HraMutex {
     std::condition_variable zapisanie;
     bool obsadene=false;
     int aktualnyHrac = 0;
+    bool koniecHry= false;
+    std::string vitaz;
 };
 
-
-bool jeKoniecHry(const HraMutex& hraMutex) {
-    for (int i = 0; i < 4; ++i) {
-        if (!hraMutex.hra.hraci.at(i).maFigurkyCiel()) {
-            return false; // Ešte nie je koniec hry, aspoň jeden hráč nemá všetky figurky v domčeku
-        }
+void oznamKoniecHry(HraMutex& hraMutex) {
+    for (int i = 1; i <= 3; ++i) {
+        send(i, hraMutex.vitaz.c_str(), hraMutex.vitaz.size(), 0);
     }
-    return true; // Všetci hráči majú všetky figurky v domčeku, koniec hry
 }
-
 
 void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
     LocalInfo localInfo;
@@ -142,7 +138,12 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
         diceMutex.unlock();
 
         stavHry.hodKockou = diceResult;
-        stavHry.jeKoniec = jeKoniecHry(hraMutex);
+        stavHry.jeKoniec = hraMutex.hra.jeHracVitaz(hrac);
+        if(stavHry.jeKoniec){
+            hraMutex.koniecHry= true;
+            hraMutex.vitaz=hrac.getMeno();
+        }
+
         std::string board = hraMutex.hra.ukazVysledok();
         std::cout<< hraMutex.hra.ukazVysledok();
         lockHra.unlock();
@@ -159,6 +160,11 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 
         //jeKoniec
         send(clientSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
+
+        if (hraMutex.koniecHry) {
+            send(clientSocket, hraMutex.vitaz.c_str(), hraMutex.vitaz.size(), 0);
+            break;
+        }
 
         std::cout << "Hrac " << playerId << " hodil kockou a ziskal: " << diceResult << std::endl;
 
@@ -240,6 +246,10 @@ void handleLocalPlayer(int playerId, HraMutex& hraMutex) {
                 // posun
                 std::cout << "Hrac " << playerId << " posunul figurinu " << rozhodnutieFigurka << "o "<< diceResult  <<"." << std::endl;
                 hraMutex.hra.spravTah(playerId, rozhodnutieFigurka - '0', diceResult);
+                if(hraMutex.hra.jeHracVitaz(localHrac)){
+                    hraMutex.koniecHry= true;
+                    hraMutex.vitaz=localHrac.getMeno();
+                }
             } else {
                 //TODO
                 std::cerr << " zle cislo, pytam sa znova " << playerId << ": " << rozhodnutieFigurka << std::endl;
@@ -299,8 +309,9 @@ int main() {
         int clientSocket = accept(serverSocket, nullptr, nullptr);
 
         // Skontrolovanie stavu hry pred vytvorením nového vlákna pre obsluhu nového klienta
-        if (jeKoniecHry(std::ref(hraMutex))) {
+        if (hraMutex.koniecHry) {
             std::cout << "Hra skoncila." << std::endl;
+            std::cout << "Vitazom hry sa stal " << hraMutex.vitaz << std::endl;
             break;
         }
 

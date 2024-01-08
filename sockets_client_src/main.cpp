@@ -17,6 +17,7 @@ struct StavHry {
     bool naRade = false;
     int hracNaTahu=-1;
     char playerID='0';
+    std::string vitaz;
 };
 
 int main() {
@@ -127,13 +128,22 @@ int main() {
         // jeKoniec
         recv(connectSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
 
+        // meno vitaza
+        if(stavHry.jeKoniec){
+            recv(connectSocket, reinterpret_cast<char*>(&stavHry.vitaz), sizeof(stavHry.vitaz), 0);
+        }
+
         // Zobrazenie informácií hráčovi
         std::cout << "Hodil si: " << stavHry.hodKockou << std::endl;
 
         // Zobrazenie hracieho poľa
         std::cout << stavHry.hraciaDoska << std::endl; // Display the game board
 
-
+        if(stavHry.jeKoniec){
+            std::cout << "Hra skoncila." << std::endl;
+            std::cout << "Vitazom hry sa stal " << stavHry.vitaz << std::endl;
+            break;
+        }
 
         // dlzkaStringu
         size_t lengthRozhodnutie;
@@ -158,10 +168,6 @@ int main() {
         std::cout << std::endl;
         send(connectSocket, decision.c_str(), decision.size(), 0);
 
-        if(stavHry.jeKoniec){
-            std::cout << "Hra skoncila." << std::endl;
-            break;
-        }
 
         Sleep(1000);  // Simulácia ďalšieho kola
     }

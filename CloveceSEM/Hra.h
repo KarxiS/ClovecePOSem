@@ -5,19 +5,19 @@
 
 class Hra {
 private:
+    std::vector<Hrac> hraci;
     HraciaDoska hraciaDoska;
     Kocka kocka;
     int aktualnyHrac;
 public:
     bool jeKoniec;
-    std::vector<Hrac> hraci;
 public:
 
     Hra();
     void zapisHraca(Hrac& hrac);
     void zacniHru();
     void spravTah(int hrac, int cisloFigurky, int oKolko);
-
+    bool jeHracVitaz(Hrac hrac);
     std::string ukazVysledok();
 
 
