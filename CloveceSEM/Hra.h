@@ -5,12 +5,13 @@
 
 class Hra {
 private:
+    std::vector<Hrac> hraci;
     HraciaDoska hraciaDoska;
     Kocka kocka;
     int aktualnyHrac;
 public:
     bool jeKoniec;
-    std::vector<Hrac> hraci;
+
 public:
 
     Hra();

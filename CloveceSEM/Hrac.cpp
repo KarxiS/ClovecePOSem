@@ -53,10 +53,10 @@ std::string Hrac::getMeno() {
     return this->meno;
 }
 
-bool Hrac::maFigurkyCiel() const {
+bool Hrac::maFigurkyCiel() {
 
     //prejdenie hracovych figurok, ci su v cieli
-    for (Figurka figurka : this->figurky) {
+    for (Figurka& figurka : this->figurky) {
         Policko* policko = figurka.getAktualnePolicko();
         if(!policko->isEndDomcek()){
             return false;

@@ -53,7 +53,7 @@ int main() {
     WSADATA wsaData;
     LocalInfo localInfo;
     std::string hostName = "frios2.fri.uniza.sk";
-    short port = 12499;
+    short port = 12502;
 
     struct addrinfo *result = NULL;
     struct addrinfo hints;
@@ -109,7 +109,7 @@ int main() {
     updateThread.detach();
     // Hráč môže hodit kockou kliknutím na Enter
     // Jednoduchý while loop na opakované hody
-    while (true) {
+    while (!stavHry.jeKoniec) {
 
         char action = 'h';
         send(connectSocket, &action, sizeof(action), 0);
@@ -190,10 +190,11 @@ int main() {
         std::cout << std::endl;
         send(connectSocket, decision.c_str(), decision.size(), 0);
 
-        if(stavHry.jeKoniec){
-            std::cout << "Hra skoncila." << std::endl;
-            break;
-        }
+
+
+
+
+        // Ďalšia logika hry by sa vykonávala tu
 
         Sleep(1000);  // Simulácia ďalšieho kola
     }
