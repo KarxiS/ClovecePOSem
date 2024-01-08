@@ -8,11 +8,21 @@ Figurka::Figurka(char parZnak, int x, int y)
     this->spawnX=x;
     this->spawnY=y;
     this->aktualnePolicko= nullptr;
+    this->poradie =0;
 }
 
 char Figurka::getZnak()
 {
     return this->znak;
+}
+
+int Figurka::getPoradie() const {
+    return poradie;
+}
+
+Figurka& Figurka::setPoradie(int poradie) {
+    Figurka::poradie = poradie;
+    return *this;
 }
 
 int Figurka::getSuradnicaX()

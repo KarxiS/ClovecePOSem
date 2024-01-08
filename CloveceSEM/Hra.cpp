@@ -109,7 +109,7 @@ std::string Hra::ukazVysledok()
 
 char Hra::getVolnePlayerID() {
     // Create a set of all possible player IDs
-    std::set<char> ids = {'1', '2', '3', '4'};
+    std::set<char> ids = {'0', '1', '2', '3'};
 
     // Remove the IDs that are already in use
     for (Hrac hrac : this->hraci) {

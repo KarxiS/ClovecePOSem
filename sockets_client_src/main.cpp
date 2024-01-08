@@ -90,13 +90,31 @@ int main() {
     // Hráč môže hodit kockou kliknutím na Enter
     // Jednoduchý while loop na opakované hody
     while (!stavHry.jeKoniec) {
+
+        char action = 'h';
+        send(connectSocket, &action, sizeof(action), 0);
+
+        // prijemDlzky
+        size_t lengthMap;
+        recv(connectSocket, reinterpret_cast<char*>(&lengthMap), sizeof(lengthMap), 0);
+
+        // prijemMapy
+        char* bufferMap = new char[lengthMap];
+        recv(connectSocket, bufferMap, lengthMap, 0);
+        stavHry.hraciaDoska = std::string(bufferMap, lengthMap);
+        delete[] bufferMap;
+
+        // Zobrazenie hracieho poľa
+        std::cout << stavHry.hraciaDoska << std::endl; // Display the game board
+
+
         std::cout << "Stlacte Enter pre hod kockou..\n";
         std::cin.get();
 
-        char action = 'h';
+
         send(connectSocket, &action, sizeof(action), 0);     //posielanie na server - klient vykonal akciu
         recv(connectSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
-        // Receive the length of the string
+
         if (stavHry.naRade == false) {
             recv(connectSocket, reinterpret_cast<char*>(&stavHry.hracNaTahu), sizeof(stavHry.hracNaTahu), 0);
             std::cout << "pockajte, nie ste na rade! kocka sa hodi hned ako budete na rade!\n";
@@ -105,31 +123,53 @@ int main() {
             continue;
         }
 
+
         size_t length;
         recv(connectSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
 
-        // Receive the string data
+        // // dlzkaString
         char* buffer = new char[length];
         recv(connectSocket, buffer, length, 0);
         stavHry.hraciaDoska = std::string(buffer, length);
         delete[] buffer;
 
-        // Check if it's not the player's turn
+        // hodKockou
+        recv(connectSocket, reinterpret_cast<char*>(&stavHry.hodKockou), sizeof(stavHry.hodKockou), 0);
+
+        // jeKoniec
+        recv(connectSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
+
+        // Zobrazenie informácií hráčovi
+        std::cout << "Hodil si: " << stavHry.hodKockou << std::endl;
+
+        // Zobrazenie hracieho poľa
+        std::cout << stavHry.hraciaDoska << std::endl; // Display the game board
 
 
 
+        // dlzkaStringu
+        size_t lengthRozhodnutie;
+        recv(connectSocket, reinterpret_cast<char*>(&lengthRozhodnutie), sizeof(lengthRozhodnutie), 0);
 
-            // Receive the hodKockou field
-            recv(connectSocket, reinterpret_cast<char*>(&stavHry.hodKockou), sizeof(stavHry.hodKockou), 0);
+        // dataString
+        char* bufferRozhodnutie = new char[lengthRozhodnutie];
+        recv(connectSocket, bufferRozhodnutie, lengthRozhodnutie, 0);
 
-            // Receive the jeKoniec field
-            recv(connectSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
 
-            // Zobrazenie informácií hráčovi
-            std::cout << "Hodil si: " << stavHry.hodKockou << std::endl;
+        if (lengthRozhodnutie <= 0) {
+            std::cerr << "Stratene spojenie so serverom." << std::endl;
+            break;
+        }
+        std::cout<<std::string(bufferRozhodnutie, lengthRozhodnutie) <<std::endl;
+        delete[] bufferRozhodnutie;
 
-            // Zobrazenie hracieho poľa
-            std::cout << stavHry.hraciaDoska << std::endl; // Display the game board
+        // pytam sa ktoru chce posunut figurku
+        std::string decision;
+        std::cout << "Tvoj vstup: ";
+        std::getline(std::cin, decision);
+        std::cout << std::endl;
+        send(connectSocket, decision.c_str(), decision.size(), 0);
+
 
 
 

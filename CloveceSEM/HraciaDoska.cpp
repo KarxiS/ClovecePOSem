@@ -29,19 +29,19 @@ void HraciaDoska::inicializaciaHraciehoPola() {
     this->vytvorCestu(10, 6, 6, 6);
     this->vytvorCestu(6, 6, 6, 10);
     this->vytvorCestu(6, 10, 4, 10);
-    this->vytvorDomceky(1,5,4,5,'2');
-    this->vytvorDomceky(9,5,6,5,'4');
-    this->vytvorDomceky(5,1,5,4,'1');
-    this->vytvorDomceky(5,9,5,6,'3');
+    this->vytvorDomceky(1,5,4,5,'1');
+    this->vytvorDomceky(9,5,6,5,'3');
+    this->vytvorDomceky(5,1,5,4,'0');
+    this->vytvorDomceky(5,9,5,6,'2');
     this->nastavSpawnPoint();
 }
 
 void HraciaDoska::nastavSpawnPoint()
 {
-    this->hraciePole[10][4].setDomcekVstup('3').setZnak('S').setJeDomcekSpawn(true);
-    this->hraciePole[4][0].setDomcekVstup('2').setZnak('S').setJeDomcekSpawn(true);
-    this->hraciePole[0][6].setDomcekVstup('1').setZnak('S').setJeDomcekSpawn(true);
-    this->hraciePole[6][10].setDomcekVstup('4').setZnak('S').setJeDomcekSpawn(true);
+    this->hraciePole[10][4].setDomcekVstup('2').setZnak('S').setJeDomcekSpawn(true);
+    this->hraciePole[4][0].setDomcekVstup('1').setZnak('S').setJeDomcekSpawn(true);
+    this->hraciePole[0][6].setDomcekVstup('0').setZnak('S').setJeDomcekSpawn(true);
+    this->hraciePole[6][10].setDomcekVstup('3').setZnak('S').setJeDomcekSpawn(true);
 }
 
 Policko* HraciaDoska::getPolicko(int x,int y) {
@@ -156,16 +156,24 @@ void HraciaDoska::zobrazHraciePole() {
 
 
 std::string HraciaDoska::getHraciePole() {
-    std::string result;
+    std::ostringstream result;
     for (int i = 0; i < 11; ++i) {
         for (int j = 0; j < 11; ++j) {
-            result += hraciePole[i][j].getZnak();
-            result += " | ";
+            std::string znak(1, hraciePole[i][j].getZnak());  // Convert char to string
+            if(hraciePole[i][j].getAktualnaFigurka() != nullptr){
+                int poradieFigurky = hraciePole[i][j].getAktualnaFigurka()->getPoradie();
+                znak += std::to_string(poradieFigurky);  // Convert int to string and concatenate
+            }
+            result << std::setw(2) << znak << " | ";
         }
-        result += "\n";
+        result << "\n";
     }
-    return result;
+    return result.str();
 }
+
+
+
+
 
 
 

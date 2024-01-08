@@ -13,6 +13,7 @@ private:
     void setSuradnicaY(int y);
     Policko* aktualnePolicko;
     Policko *startovaciePolicko;
+    int poradie;
 public:
     Policko *getStartovaciePolicko() const;
 
@@ -34,5 +35,11 @@ public:
 
 
     void setStartovaciePolicko(Policko* policko);
+
+    int getPoradie() const;
+
+    Figurka& setPoradie(int poradie);
+
+
 };
 
