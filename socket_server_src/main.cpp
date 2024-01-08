@@ -20,7 +20,7 @@ struct StavHry {
     int hodKockou=0;
     bool jeKoniec=false;
     bool naRade=false;
-    int hracNaTahu=-1;
+    int hracNaTahu=0;
     char playerID='0';
 };
 
@@ -31,6 +31,7 @@ struct HraMutex {
     std::condition_variable zapisanie;
     bool obsadene=false;
     int aktualnyHrac = 0;
+    bool jeKoniec=false;
 
 
 
@@ -47,6 +48,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
     send(clientSocket, reinterpret_cast<char*>(&localInfo.playerID), sizeof(localInfo.playerID), 0);
     Hrac hrac("Jozef", localInfo.playerID);
     hraMutex.hra.zapisHraca(hrac);
+
 
 
 
@@ -81,21 +83,6 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
             break;
         }
 
-
-
-
-
-
-
-//        switch (buffer[1]) {
-//            case 'h': {
-//
-//            }
-//            case 'p': {
-//
-//            }
-//        }
-
         std::unique_lock<std::mutex> lockHra(hraMutex.mutex);
         hraMutex.obsadene=true;
 
@@ -123,7 +110,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 
         hraMutex.aktualnyHrac++;
         // Simulácia hodu kockou
-        std::lock_guard<std::mutex> lock(diceMutex);
+        std::unique_lock<std::mutex> lock(diceMutex);
         diceResult = rand() % 6 + 1;
 
         //diceResult = kocka.hodkocou();
@@ -132,7 +119,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
         // Aktualizácia stavu hrye
 
         //hraMutex.hra.spravTah(playerId, 1, diceResult);
-        diceMutex.unlock();
+        lock.unlock();
 
         stavHry.hodKockou = diceResult;
         std::string board = hraMutex.hra.ukazVysledok();
@@ -196,6 +183,28 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 }
 }
 
+void updateMap(std::vector<int>& clientSockets, HraMutex& hraMutex) {
+    while (!hraMutex.hra.jeKoniec) {
+        // Lock the mutex while updating and sending game state
+        std::unique_lock<std::mutex> lock(hraMutex.mutex);
+
+
+        for (int clientSocket : clientSockets) {
+            std::string board = hraMutex.hra.ukazVysledok();
+            send(clientSocket, reinterpret_cast<char*>(&hraMutex.jeKoniec), sizeof(hraMutex.jeKoniec), 0);
+            // boardSize
+            size_t length = board.size();
+            send(clientSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
+
+            // board
+            send(clientSocket, board.c_str(), board.size(), 0);
+        }
+        lock.unlock();
+        std::this_thread::sleep_for (std::chrono::seconds(2));
+    }
+}
+
+
 void handleLocalPlayer(int playerId, HraMutex& hraMutex) {
     LocalInfo localPlayer;
     localPlayer.playerID = playerId + '0'; // or whatever ID you want to assign to the local player
@@ -217,7 +226,7 @@ void handleLocalPlayer(int playerId, HraMutex& hraMutex) {
             // Simulate rolling the dice
             std::unique_lock<std::mutex> lock(diceMutex);
             diceResult = rand() % 6 + 1;
-            diceMutex.unlock();
+            lock.unlock();
             std::cout << "hodil si " << diceResult<< std::endl;
             // Update the game state
             // hraMutex.hra.spravTah(localPlayer.playerID - '0', 1, diceResult);
@@ -286,6 +295,7 @@ int main() {
 
     int playerId = 0;
     std::thread(handleLocalPlayer, playerId++, std::ref(hraMutex)).detach();
+    std::vector<int> clientSockets;
     while (true) {
 
 
@@ -294,10 +304,17 @@ int main() {
 
         // Vytvorenie noveho vlakna pre obsluhu noveho klienta
         std::thread(handleClient, clientSocket, playerId, std::ref(hraMutex)).detach();
-
+        clientSockets.push_back(clientSocket);
         playerId++;
+        //std::thread updateThread(updateMap, std::ref(clientSockets), std::ref(hraMutex));
+        //updateThread.detach();
+        if(playerId==4){
+            hraMutex.aktualnyHrac=0;
+            hraMutex.hrac.notify_all();
+
+        }
         if (playerId >= 4) {
-            playerId = 1;
+            playerId = 0;
         }
     }
 
