@@ -12,6 +12,8 @@
 
 std::mutex diceMutex;
 int diceResult;
+
+
 struct LocalInfo{
     char playerID='0';
 };
@@ -31,12 +33,17 @@ struct HraMutex {
     std::condition_variable zapisanie;
     bool obsadene=false;
     int aktualnyHrac = 0;
-
-
-
 };
 
 
+bool jeKoniecHry(const HraMutex& hraMutex) {
+    for (int i = 0; i < 4; ++i) {
+        if (!hraMutex.hra.hraci.at(i).maFigurkyCiel()) {
+            return false; // Ešte nie je koniec hry, aspoň jeden hráč nemá všetky figurky v domčeku
+        }
+    }
+    return true; // Všetci hráči majú všetky figurky v domčeku, koniec hry
+}
 
 
 void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
@@ -135,6 +142,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
         diceMutex.unlock();
 
         stavHry.hodKockou = diceResult;
+        stavHry.jeKoniec = jeKoniecHry(hraMutex);
         std::string board = hraMutex.hra.ukazVysledok();
         std::cout<< hraMutex.hra.ukazVysledok();
         lockHra.unlock();
@@ -252,8 +260,6 @@ void handleLocalPlayer(int playerId, HraMutex& hraMutex) {
 }
 
 
-
-
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
@@ -265,7 +271,7 @@ int main() {
 
     hraMutex.hra.zacniHru();
 
-    short port = 12502;
+    short port = 12499;
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
@@ -280,7 +286,8 @@ int main() {
 
     // Pasivny soket je len na strane servera
     bind(serverSocket, reinterpret_cast<struct sockaddr*>(&serverAddress), sizeof(serverAddress));
-    listen(serverSocket, 5);    // Pasivny soket - nesluzi na komunikaciu, ale len aby sa k nemu niekto pripojil; 5 - najviac 5 ludi pripojit v jednom okamziku
+    listen(serverSocket, 5);
+    // Pasivny soket - nesluzi na komunikaciu, ale len aby sa k nemu niekto pripojil; 5 - najviac 5 ludi pripojit v jednom okamziku
 
     std::cout << "Server je spusteny a pocuva na porte " << port << std::endl;
 
@@ -288,9 +295,14 @@ int main() {
     std::thread(handleLocalPlayer, playerId++, std::ref(hraMutex)).detach();
     while (true) {
 
-
+        // Prijímanie pripojenia
         int clientSocket = accept(serverSocket, nullptr, nullptr);
 
+        // Skontrolovanie stavu hry pred vytvorením nového vlákna pre obsluhu nového klienta
+        if (jeKoniecHry(std::ref(hraMutex))) {
+            std::cout << "Hra skoncila." << std::endl;
+            break;
+        }
 
         // Vytvorenie noveho vlakna pre obsluhu noveho klienta
         std::thread(handleClient, clientSocket, playerId, std::ref(hraMutex)).detach();
