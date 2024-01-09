@@ -32,7 +32,7 @@ struct HraMutex {
     std::condition_variable hrac;
     std::condition_variable zapisanie;
     bool obsadene=false;
-    int aktualnyHrac = 0;
+    int aktualnyHrac = -1;
     bool koniecHry= false;
     std::string vitaz;
 };
@@ -244,14 +244,14 @@ void handleLocalPlayer(int playerId, HraMutex &hraMutex, KockaMutex &kockaMutex)
 void diceRollProducer(KockaMutex& kocka) {
     std::srand(std::time(0));
 
-    for (int i = 0; i < 10; ++i) {  // Always generate 10 dice rolls
+    while (true) {  // Always generate 10 dice rolls
 
         int diceRoll = 1 + std::rand() % 6;
         std::unique_lock<std::mutex> lock(kocka.mutex);
-        while (kocka.data.size() >= 1) {
+        while (kocka.data.size() >= 3) {
             kocka.generuj.wait(lock);
         }
-        std::cout << "generujem" << std::endl;
+        std::cout << "generujem cisla z kocky" << std::endl;
         kocka.data.push_back(diceRoll);
         lock.unlock();
         kocka.konzumuj.notify_one();
@@ -266,7 +266,7 @@ int main() {
     KockaMutex kockaMutex;
     hraMutex.hra.zacniHru();
 
-    short port = 12502;
+    short port = 12505;
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
@@ -302,7 +302,9 @@ int main() {
         playerId++;
         if (playerId >= 4) {
             playerId = 0;
+            hraMutex.aktualnyHrac=0;
             std::cout<< "su pripojeny vsetci stlacte enter na zacatie hry"<< std::endl;
+            hraMutex.hrac.notify_all();
         }
     }
     close(serverSocket);
