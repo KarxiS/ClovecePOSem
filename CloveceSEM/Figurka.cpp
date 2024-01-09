@@ -11,8 +11,7 @@ Figurka::Figurka(char parZnak, int x, int y)
     this->poradie =0;
 }
 
-char Figurka::getZnak()
-{
+char Figurka::getZnak() {
     return this->znak;
 }
 
@@ -25,8 +24,7 @@ Figurka& Figurka::setPoradie(int poradie) {
     return *this;
 }
 
-int Figurka::getSuradnicaX()
-{
+int Figurka::getSuradnicaX() {
     return this->suradnicaX;
 }
 
@@ -48,8 +46,7 @@ Figurka& Figurka::setAktualnePolicko(Policko* aktualnePolickoL) {
     return *this;
 }
 
-int Figurka::getSuradnicaY()
-{
+int Figurka::getSuradnicaY() {
     return this->suradnicaY;
 }
 
@@ -58,7 +55,6 @@ void Figurka::setSuradnicaX(int x) {
 }
 
 Figurka& Figurka::setXY(int x, int y) {
-
     this->setSuradnicaX(x);
     this->setSuradnicaY(y);
     return *this;
@@ -103,7 +99,6 @@ void Figurka::posunSa(int oKolko) {
         }
         finalPolicko=finalPolicko->getDalsie();
 
-
     }
     //ak final policko je niekto, pojdeme naspat na local
 
@@ -118,13 +113,9 @@ void Figurka::posunSa(int oKolko) {
         return;
     }
 
-
     aktualnePolicko->setFigurka(nullptr);
     aktualnePolicko = finalPolicko;
     aktualnePolicko->setFigurka(this);
-
-
-
 }
 
 void Figurka::setStartovaciePolicko(Policko* policko) {

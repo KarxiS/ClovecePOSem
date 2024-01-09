@@ -9,37 +9,29 @@ private:
     int suradnicaY;
     int spawnX;
     int spawnY;
-    void setSuradnicaX(int x);
-    void setSuradnicaY(int y);
     Policko* aktualnePolicko;
     Policko *startovaciePolicko;
     int poradie;
-public:
-    Policko *getStartovaciePolicko() const;
+
+private:
+    void setSuradnicaX(int x);
+    void setSuradnicaY(int y);
 
 public:
     Figurka(char parZnak, int x, int y);
     char getZnak();
     int getSuradnicaX();
     int getSuradnicaY();
-    Figurka& setXY(int x, int y);
-    Figurka vyhodFigurku();
-    void posunSa(int oKolko);
-
-
     Policko* getAktualnePolicko() const;
-
     Figurka& setAktualnePolicko(Policko *aktualnePolickoL);
-
-
-
-
+    Policko *getStartovaciePolicko() const;
     void setStartovaciePolicko(Policko* policko);
-
     int getPoradie() const;
-
     Figurka& setPoradie(int poradie);
 
+    Figurka vyhodFigurku();
+    void posunSa(int oKolko);
+    Figurka& setXY(int x, int y);
 
 };
 
