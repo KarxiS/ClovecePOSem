@@ -2,11 +2,10 @@
 #include <iostream>
 #include <iomanip>
 
-
+//inicializacia dvojrozmerneho vectoru
 HraciaDoska::HraciaDoska() : hraciePole(11, std::vector<Policko>(11)) {
 
 }
-
 
 void HraciaDoska::inicializaciaHraciehoPola() {
 
@@ -47,6 +46,7 @@ void HraciaDoska::nastavSpawnPoint()
 Policko* HraciaDoska::getPolicko(int x,int y) {
     return &this->hraciePole[y][x];
 }
+
 void HraciaDoska::pridajHraca(Hrac& hrac)
 {
     for (Figurka& figurka : hrac.figurky) {
@@ -61,7 +61,7 @@ void HraciaDoska::pridajHraca(Hrac& hrac)
 void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
 
     if (i == noveI) {
-        // Vertik�lna cesta
+        // Vertikalna cesta
         int krok = (noveJ > j) ? 1 : -1;
         for (int jj = j; jj != noveJ; jj += krok) {
             hraciePole[jj][i] = Policko().setZnak('-').setCislo(pocitadlo_cesta++).odomkniSmer(0,krok);
@@ -73,11 +73,10 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
             if(hraciePole[jj][i].getCislo()==39) {
                 hraciePole[jj][i].odomkniSmer(-1,0);
             }
-
         }
     }
     else if (j == noveJ) {
-        // Horizont�lna cesta
+        // Horizontalna cesta
         int krok = (noveI > i) ? 1 : -1;
         for (int ii = i; ii != noveI; ii += krok) {
             hraciePole[j][ii] = Policko().setZnak('-').setCislo(pocitadlo_cesta++).odomkniSmer(krok,0);
@@ -85,14 +84,9 @@ void HraciaDoska::vytvorCestu(int i, int j, int noveI, int noveJ) {
             if(hraciePole[j][ii].getCislo()==49) {
                 hraciePole[j][ii].odomkniSmer(0,-1);
             }
-
             if(hraciePole[j][ii].getCislo()==29) {
                 hraciePole[j][ii].odomkniSmer(0,1);
             }
-
-
-
-
         }
     }
 }
@@ -103,38 +97,22 @@ void HraciaDoska::vytvorDomceky(int xStart, int yStart, int xEnd, int yEnd, int 
     int pocitadloDomcek = 0;
     if(xStart == xEnd){
 
-        // Vertik�lna cesta
-
+        // Vertikalna cesta
         for (int y = yStart; y != yEnd + smerY; y += smerY) {
-            hraciePole[y][xStart] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(0,
-                                                                                                   smerY).setDomcekVstup(
-                    hrac);
-
+            hraciePole[y][xStart] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(0,smerY).setDomcekVstup(hrac);
             hraciePole[y][xStart].setDalsie(&hraciePole[y+smerY][xStart]);
-
         }
-
         hraciePole[yEnd ][xStart].setDalsie(nullptr);
-
-
-
         hraciePole[yStart-smerY][xStart].setDomcek(&hraciePole[yStart][xStart]);
     }
     if(yStart == yEnd){
+
         // Horizontalna cesta
-
         for (int x = xStart; x != xEnd + smerX; x += smerX) {
-            hraciePole[yStart][x] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(smerX,
-                                                                                                   0).setDomcekVstup(
-                    hrac);
-
-
+            hraciePole[yStart][x] = Policko().setZnak('X').setCislo(pocitadloDomcek++).odomkniSmer(smerX,0).setDomcekVstup(hrac);
             hraciePole[yStart][x].setDalsie(&hraciePole[yStart][x+smerX]);
-
         }
-
         hraciePole[yStart ][xEnd].setDalsie(nullptr);
-
         hraciePole[yStart][xStart-smerX].setDomcek(&hraciePole[yStart][xStart]);
     }
 }
@@ -144,13 +122,10 @@ void HraciaDoska::zobrazHraciePole() {
     for (int i = 0; i < 11; ++i) {
         for (int zvacsenieLoop = 0; zvacsenieLoop < 1; ++zvacsenieLoop) {
             for (int j = 0; j < 11; ++j) {
-
                 std::cout <<  std::setw(2)<<hraciePole[i][j].getZnak()  << "\033[31m | \033[0m";
             }
             std::cout << std::endl;
         }
-
-
     }
 }
 
@@ -171,12 +146,6 @@ std::string HraciaDoska::getHraciePole() {
     return result.str();
 }
 
-
-
-
-
-
-
 void HraciaDoska::zobrazHraciePoleDebugCesty() {
     std::cout << "*********Debug**********"<<std::endl;
     for (int i = 0; i < 11; ++i) {
@@ -187,8 +156,6 @@ void HraciaDoska::zobrazHraciePoleDebugCesty() {
             }
             std::cout << std::endl;
         }
-
-
     }
 }
 
@@ -199,6 +166,5 @@ Policko &HraciaDoska::getSpawn(char hrac) {
                 return hraciePole[i][j];
             }
         }
-
     }
 }
