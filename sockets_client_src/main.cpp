@@ -150,9 +150,13 @@ int main() {
 
         // pytam sa ktoru chce posunut figurku
         std::string decision;
-        std::cout << "Tvoj vstup: ";
-        std::getline(std::cin, decision);
-        std::cout << std::endl;
+
+
+        do {
+            std::cout << "Tvoj vstup: ";
+            std::getline(std::cin, decision);
+
+        } while (decision.empty());
         send(connectSocket, decision.c_str(), decision.size(), 0);
 
         Sleep(1000);  // Simulácia ďalšieho kola

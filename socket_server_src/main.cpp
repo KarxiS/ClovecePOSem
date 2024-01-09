@@ -99,6 +99,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex, KockaMutex
         while(playerId!=hraMutex.aktualnyHrac%4){
             hraMutex.hrac.wait(lockHra);
         }
+        std::cout<< "na rade je hrac "<<playerId<<std::endl;
         stavHry.naRade=true;
         hraMutex.aktualnyHrac++;
 
