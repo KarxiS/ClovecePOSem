@@ -10,9 +10,6 @@ private:
     char id;
 public:
     std::vector<Figurka> figurky;
-    bool jeSkonceny;
-
-public:
     Hrac(std::string paMeno, char paId);
     Hrac() = default;
 

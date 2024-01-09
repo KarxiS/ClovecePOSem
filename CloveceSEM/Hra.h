@@ -10,8 +10,6 @@ private:
     Kocka kocka;
     int aktualnyHrac;
 public:
-    bool jeKoniec;
-public:
 
     Hra();
     void zapisHraca(Hrac& hrac);

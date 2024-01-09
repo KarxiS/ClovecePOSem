@@ -5,7 +5,7 @@
 Hra::Hra()
 {
     this->aktualnyHrac = 0;
-    this->jeKoniec = false;
+
     hraciaDoska.inicializaciaHraciehoPola();
 }
 
