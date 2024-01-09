@@ -2,36 +2,26 @@
 #include <iostream>
 #include <set>
 
-Hra::Hra()
-{
+Hra::Hra() {
     this->aktualnyHrac = 0;
-
     hraciaDoska.inicializaciaHraciehoPola();
 }
 
-void Hra::zapisHraca(Hrac& hrac)
-{
+void Hra::zapisHraca(Hrac& hrac) {
     if (hraci.size() < 4) {
-
         hraci.push_back(hrac);
         hraciaDoska.pridajHraca(hraci.at(hraci.size()-1));
-
     }
     else {
         std::cout << "V hre su zapojeni len prvi 4 hraci." << std::endl;
     }
-
 }
 
-void Hra::odpisHraca(int playerId)
-{
-
+void Hra::odpisHraca(int playerId) {
     for (auto it = hraci.begin(); it != hraci.end(); ++it) {
         if (it->getId()== playerId) {
             for(Figurka figurka : it->figurky){
                 figurka.setAktualnePolicko(nullptr);
-
-
             }
             hraci.erase(it);
 
@@ -43,10 +33,7 @@ void Hra::odpisHraca(int playerId)
 }
 
 
-void Hra::zacniHru()
-{
-
-
+void Hra::zacniHru() {
     //zobrazenie hracieho pola, tesne pred zacatim hry
     hraciaDoska.zobrazHraciePole();
 
@@ -83,11 +70,8 @@ void Hra::zacniHru()
 
 
 
-void Hra::spravTah(int hrac, int cisloFigurky, int oKolko)
-{
+void Hra::spravTah(int hrac, int cisloFigurky, int oKolko) {
     Hrac& hracNaTahu = hraci.at(hrac);
-    //vykonanie akcie hraca
-
     Figurka& figurka = hracNaTahu.figurky[cisloFigurky-1];
 
     if(figurka.getStartovaciePolicko()==figurka.getAktualnePolicko()&& oKolko==6){
@@ -102,8 +86,7 @@ void Hra::spravTah(int hrac, int cisloFigurky, int oKolko)
     this->aktualnyHrac = (this->aktualnyHrac + 1) % hraci.size();
 }
 
-std::string Hra::ukazVysledok()
-{
+std::string Hra::ukazVysledok() {
     return hraciaDoska.getHraciePole();
 }
 

@@ -9,17 +9,14 @@ private:
     HraciaDoska hraciaDoska;
     Kocka kocka;
     int aktualnyHrac;
-public:
 
+public:
     Hra();
     void zapisHraca(Hrac& hrac);
     void zacniHru();
     void spravTah(int hrac, int cisloFigurky, int oKolko);
     bool jeHracVitaz(Hrac hrac);
     std::string ukazVysledok();
-
-
-
     void odpisHraca(int playerId);
     char getVolnePlayerID();
 };
