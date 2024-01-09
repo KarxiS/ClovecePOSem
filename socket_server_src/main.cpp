@@ -212,7 +212,12 @@ void handleLocalPlayer(int playerId, HraMutex &hraMutex, KockaMutex &kockaMutex)
         // Update the game state
         char rozhodnutieFigurka;
         std::cout << "zvol jedno cislo od 1-4 na ovladanie zvoleneho panacika, napis 0 ak chces vynechat svoj tah" << std::endl;
-        std::cin.get(rozhodnutieFigurka);
+
+        do {
+            std::cin.get(rozhodnutieFigurka);
+        } while (rozhodnutieFigurka == '\n');
+
+        std::cout << "Tvoj vstup: " << rozhodnutieFigurka << std::endl;
 
         if (rozhodnutieFigurka == '0') {
             // vynechanie
