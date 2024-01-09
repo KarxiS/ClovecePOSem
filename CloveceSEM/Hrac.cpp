@@ -9,6 +9,14 @@ Hrac::Hrac(std::string paMeno, char paId)
     this->nastavFigurky();
 }
 
+std::string Hrac::getMeno() {
+    return this->meno;
+}
+
+char Hrac::getId() {
+    return this->id;
+}
+
 void Hrac::nastavFigurky()
 {
 
@@ -40,19 +48,6 @@ void Hrac::nastavFigurky()
     }
 }
 
-void Hrac::vypisInfo()
-{
-    std::cout << "meno hraca: " << this->meno << "id hraca: " << this->id <<std::endl;
-}
-
-char Hrac::getId() {
-    return this->id;
-}
-
-std::string Hrac::getMeno() {
-    return this->meno;
-}
-
 bool Hrac::maFigurkyCiel(){
 
     //prejdenie hracovych figurok, ci su v cieli
@@ -68,3 +63,9 @@ bool Hrac::maFigurkyCiel(){
     }
     return true;
 }
+
+void Hrac::vypisInfo()
+{
+    std::cout << "Meno hraca: " << this->meno << ", Id hraca: " << this->id <<std::endl;
+}
+

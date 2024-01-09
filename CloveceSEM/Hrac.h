@@ -13,10 +13,10 @@ public:
     Hrac(std::string paMeno, char paId);
     Hrac() = default;
 
-    void nastavFigurky();
-    void vypisInfo();
-    char getId();
     std::string getMeno();
+    char getId();
+    void nastavFigurky();
     bool maFigurkyCiel();
+    void vypisInfo();
 };
 
