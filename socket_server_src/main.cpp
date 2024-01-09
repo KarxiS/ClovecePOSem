@@ -13,6 +13,7 @@
 std::mutex diceMutex;
 int diceResult;
 
+
 struct LocalInfo{
     char playerID='0';
 };
@@ -36,13 +37,23 @@ struct HraMutex {
     std::string vitaz;
 };
 
+
+
+
+struct KockaMutex{
+    std::vector<int> data;
+    std::mutex mutex;
+    std::condition_variable generuj;
+    std::condition_variable konzumuj;
+};
+
 void oznamKoniecHry(HraMutex& hraMutex) {
     for (int i = 1; i <= 3; ++i) {
         send(i, hraMutex.vitaz.c_str(), hraMutex.vitaz.size(), 0);
     }
 }
 
-void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
+void handleClient(int clientSocket, int playerId, HraMutex& hraMutex, KockaMutex& kockaMutex) {
     LocalInfo localInfo;
 
 
@@ -50,8 +61,9 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
     send(clientSocket, reinterpret_cast<char*>(&localInfo.playerID), sizeof(localInfo.playerID), 0);
     Hrac hrac("Jozef", localInfo.playerID);
     hraMutex.hra.zapisHraca(hrac);
-
-
+    std::string boardClient = hraMutex.hra.ukazVysledok();
+    std::cout << boardClient << std::endl;
+    std::cout << "pripojil sa hrac "<<playerId<<std::endl;
 
 
 
@@ -87,21 +99,6 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 
 
 
-
-
-
-//        switch (buffer[1]) {
-//            case 'h': {
-//
-//            }
-//            case 'p': {
-//
-//            }
-//        }
-
-        std::unique_lock<std::mutex> lockHra(hraMutex.mutex);
-        hraMutex.obsadene=true;
-
         StavHry stavHry;
 
         if(playerId!=hraMutex.aktualnyHrac%4){
@@ -116,6 +113,9 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
             send(clientSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
 
         }
+
+        std::unique_lock<std::mutex> lockHra(hraMutex.mutex);
+        hraMutex.obsadene=true;
         while(playerId!=hraMutex.aktualnyHrac%4){
 
 
@@ -126,16 +126,14 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 
         hraMutex.aktualnyHrac++;
         // Simulácia hodu kockou
-        std::lock_guard<std::mutex> lock(diceMutex);
-        diceResult = rand() % 6 + 1;
-
-        //diceResult = kocka.hodkocou();
-
-
-        // Aktualizácia stavu hrye
-
-        //hraMutex.hra.spravTah(playerId, 1, diceResult);
-        diceMutex.unlock();
+        std::unique_lock<std::mutex> lock(kockaMutex.mutex);
+        while (kockaMutex.data.empty()) {
+            kockaMutex.generuj.notify_one();
+            kockaMutex.konzumuj.wait(lock);
+        }
+        diceResult = kockaMutex.data.back();
+        kockaMutex.data.pop_back();
+        lock.unlock();
 
         stavHry.hodKockou = diceResult;
         stavHry.jeKoniec = hraMutex.hra.jeHracVitaz(hrac);
@@ -145,8 +143,9 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
         }
 
         std::string board = hraMutex.hra.ukazVysledok();
-        std::cout<< hraMutex.hra.ukazVysledok();
         lockHra.unlock();
+        std::cout<< board;
+
 
         // boardSize
         size_t length = board.size();
@@ -210,12 +209,13 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex) {
 }
 }
 
-void handleLocalPlayer(int playerId, HraMutex& hraMutex) {
+void handleLocalPlayer(int playerId, HraMutex& hraMutex, KockaMutex& kockaMutex) {
     LocalInfo localPlayer;
     localPlayer.playerID = playerId + '0'; // or whatever ID you want to assign to the local player
     Hrac localHrac("Local Player", localPlayer.playerID);
     hraMutex.hra.zapisHraca(localHrac);
-
+    std::string board = hraMutex.hra.ukazVysledok();
+    std::cout << board << std::endl;
     while (true) {
         std::unique_lock<std::mutex> lockHra(hraMutex.mutex);
         // Check if it's the local player's turn
@@ -224,15 +224,22 @@ void handleLocalPlayer(int playerId, HraMutex& hraMutex) {
             hraMutex.hrac.wait(lockHra);
         }
             // Let the local player take their turn
-            std::cout << "Lokalny hrac je na tahu\n stikni Enter na hod kockou \n";
-
+            std::cout << "Lokalny hrac je na tahu"<< std::endl;
+            std::cout << "stikni Enter na hod kockou"<< std::endl;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cin.get();
 
-            // Simulate rolling the dice
-            std::unique_lock<std::mutex> lock(diceMutex);
-            diceResult = rand() % 6 + 1;
-            diceMutex.unlock();
-            std::cout << "hodil si " << diceResult<< std::endl;
+            std::unique_lock<std::mutex> lock(kockaMutex.mutex);
+            while (kockaMutex.data.empty()) {
+                kockaMutex.generuj.notify_one();
+                kockaMutex.konzumuj.wait(lock);
+            }
+            diceResult = kockaMutex.data.back();
+            kockaMutex.data.pop_back();
+            lock.unlock();
+
+
+        std::cout << "hodil si " << diceResult<< std::endl;
             // Update the game state
             // hraMutex.hra.spravTah(localPlayer.playerID - '0', 1, diceResult);
             std::cout <<"napis jedno cislo od 1-4 na ovladanie zvoleneho panacika, napis 0 ak chces vynechat svoj tah"<<std::endl;
@@ -255,18 +262,38 @@ void handleLocalPlayer(int playerId, HraMutex& hraMutex) {
                 std::cerr << " zle cislo, pytam sa znova " << playerId << ": " << rozhodnutieFigurka << std::endl;
             }
 
-
-
+            hraMutex.aktualnyHrac++;
+            lockHra.unlock();
             // Print the game board
             std::string board = hraMutex.hra.ukazVysledok();
             std::cout << board << std::endl;
-            hraMutex.aktualnyHrac++;
+
+            hraMutex.hrac.notify_all();
         }
-        hraMutex.hrac.notify_all();
+
 
         // Wait for other players
-        std::this_thread::sleep_for(std::chrono::seconds(1));
 
+
+}
+
+
+void diceRollProducer(KockaMutex& kocka) {
+    std::srand(std::time(0));
+
+    for (int i = 0; i < 10; ++i) {  // Always generate 10 dice rolls
+
+        int diceRoll = 1 + std::rand() % 6;
+
+        std::unique_lock<std::mutex> lock(kocka.mutex);
+        while (kocka.data.size() >= 1) {
+            kocka.generuj.wait(lock);
+        }
+        std::cout << "generujem" << std::endl;
+        kocka.data.push_back(diceRoll);
+        lock.unlock();
+        kocka.konzumuj.notify_one();
+    }
 }
 
 
@@ -276,7 +303,7 @@ int main() {
 
 
     HraMutex hraMutex;
-
+    KockaMutex kockaMutex;
 
 
     hraMutex.hra.zacniHru();
@@ -300,9 +327,9 @@ int main() {
     // Pasivny soket - nesluzi na komunikaciu, ale len aby sa k nemu niekto pripojil; 5 - najviac 5 ludi pripojit v jednom okamziku
 
     std::cout << "Server je spusteny a pocuva na porte " << port << std::endl;
-
+    std::thread(diceRollProducer,std::ref(kockaMutex)).detach();
     int playerId = 0;
-    std::thread(handleLocalPlayer, playerId++, std::ref(hraMutex)).detach();
+    std::thread(handleLocalPlayer, playerId++, std::ref(hraMutex),std::ref(kockaMutex)).detach();
     while (true) {
 
         // Prijímanie pripojenia
@@ -316,11 +343,12 @@ int main() {
         }
 
         // Vytvorenie noveho vlakna pre obsluhu noveho klienta
-        std::thread(handleClient, clientSocket, playerId, std::ref(hraMutex)).detach();
+        std::thread(handleClient, clientSocket, playerId, std::ref(hraMutex),std::ref(kockaMutex)).detach();
 
         playerId++;
         if (playerId >= 4) {
-            playerId = 1;
+            playerId = 0;
+            std::cout<< "su pripojeny vsetci stlacte enter na zacatie hry"<< std::endl;
         }
     }
 

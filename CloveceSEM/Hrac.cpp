@@ -57,6 +57,10 @@ bool Hrac::maFigurkyCiel(){
 
     //prejdenie hracovych figurok, ci su v cieli
     for (Figurka figurka : this->figurky) {
+
+        if(figurka.getAktualnePolicko()== nullptr){
+            return false;
+        }
         Policko* policko = figurka.getAktualnePolicko();
         if(!policko->isEndDomcek()){
             return false;
