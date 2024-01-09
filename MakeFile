@@ -1,0 +1,16 @@
+OUTPUTS = hraK hraS
+CC = g++
+
+all:$(OUTPUTS)
+
+
+clean:
+	rm -f $(OUTPUTS)
+
+.PHONY: all clean
+
+hraK: sockets_client_src/main.cpp
+	$(CC) -o hraK sockets_client_src/main.cpp -lpthread -lcurses
+
+hraS: CloveceSEM/Figurka.cpp CloveceSEM/Figurka.h CloveceSEM/Hra.cpp CloveceSEM/Hra.h CloveceSEM/Hrac.h CloveceSEM/Hra.cpp CloveceSEM/HraciaDoska.cpp CloveceSEM/HraciaDoska.h CloveceSEM/Kocka.h CloveceSEM/Policko.cpp CloveceSEM/Policko.h socket_server_src/main.cpp
+	$(CC) -o hraS CloveceSEM/Figurka.cpp CloveceSEM/Figurka.h CloveceSEM/Hra.cpp CloveceSEM/Hra.h CloveceSEM/Hrac.h CloveceSEM/Hra.cpp CloveceSEM/HraciaDoska.cpp CloveceSEM/HraciaDoska.h CloveceSEM/Kocka.h CloveceSEM/Policko.cpp CloveceSEM/Policko.h socket_server_src/main.cpp

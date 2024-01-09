@@ -150,8 +150,6 @@ int main() {
 
         // pytam sa ktoru chce posunut figurku
         std::string decision;
-
-
         do {
             std::cout << "Tvoj vstup: ";
             std::getline(std::cin, decision);
