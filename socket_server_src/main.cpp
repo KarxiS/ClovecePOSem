@@ -143,7 +143,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex, KockaMutex
         }
 
         std::string board = hraMutex.hra.ukazVysledok();
-        lockHra.unlock();
+
         std::cout<< board;
 
 
@@ -198,7 +198,7 @@ void handleClient(int clientSocket, int playerId, HraMutex& hraMutex, KockaMutex
             std::cerr << " zle cislo, pytam sa znova " << playerId << ": " << rozhodnutieFigurka << std::endl;
         }
 
-
+        lockHra.unlock();
 
 
 
@@ -308,7 +308,7 @@ int main() {
 
     hraMutex.hra.zacniHru();
 
-    short port = 12499;
+    short port = 12502;
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));

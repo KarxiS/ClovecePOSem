@@ -25,7 +25,7 @@ int main() {
     WSADATA wsaData;
     LocalInfo localInfo;
     std::string hostName = "frios2.fri.uniza.sk";
-    short port = 12499;
+    short port = 12502;
 
     struct addrinfo *result = NULL;
     struct addrinfo hints;
