@@ -16,12 +16,6 @@ private:
     int cislo = -1;
     bool jeDomcekEnd=false;
     bool jeDomcekSpawn=false;
-public:
-    bool isJeDomcekSpawn() const;
-
-    void setJeDomcekSpawn(bool jeDomcekSpawn);
-
-private:
     char hracDomcekVystup='0';
     bool hore=false;
     bool dole = false;
@@ -30,37 +24,34 @@ private:
     Policko* dalsie;
     Figurka* aktualnaFigurka;
     Policko* domcek;
-public:
-    char getHracDomcekVystup() const;
-    Policko *getDomcek() const;
-
-    void setDomcek(Policko *domcek);
 
 public:
-    Policko *getDalsie() const;
     Policko(int cislo=-1, char znak=' ');
     char getZnak();
     Policko& setZnak(char znak);
     int getCislo();
     Policko& setCislo(int cislo);
+    Policko *getDomcek() const;
+    void setDomcek(Policko *domcek);
+    Figurka *getAktualnaFigurka() const;
+    void setAktualnaFigurka(Figurka *aktualnaFigurka);
+    Policko &setFigurka(Figurka* figurka);
+
+    bool isJeDomcekSpawn() const;
+    void setJeDomcekSpawn(bool jeDomcekSpawn);
+    bool isEndDomcek();
+
+    char getHracDomcekVystup() const;
+
+    Policko *getDalsie() const;
+    void setDalsie(Policko* dalsieLocal);
+
     Policko& setDomcekVstup(char hrac);
     Policko& odomkniSmer(int smerX, int smerY);
-    bool isSpawnDomcek();
     bool isHore();
     bool isDole();
     bool isDolava();
     bool isDoprava();
-
-    Figurka *getAktualnaFigurka() const;
-
-    void setAktualnaFigurka(Figurka *aktualnaFigurka);
-
-    bool isEndDomcek();
-
-    void setDalsie(Policko* dalsieLocal);
-
-
-    Policko &setFigurka(Figurka* figurka);
 };
 
 

@@ -32,8 +32,6 @@ char Policko::getZnak() {
     return this->znakovaReprezentacia;
 }
 
-
-
 Policko& Policko::setZnak(char znak) {
     if(znak=='X'){
         this->jeDomcekEnd=true;
@@ -45,15 +43,9 @@ Policko& Policko::setZnak(char znak) {
     return *this;
 }
 
-bool Policko::isSpawnDomcek(){
-    return this->jeDomcekSpawn;
-}
-
 bool Policko::isEndDomcek(){
     return this->jeDomcekEnd;
 }
-
-
 
 Policko& Policko::setDomcekVstup(char hrac) {
 
@@ -108,7 +100,6 @@ Figurka *Policko::getAktualnaFigurka() const {
 
 void Policko::setAktualnaFigurka(Figurka *aktualnaFigurka) {
     Policko::aktualnaFigurka = aktualnaFigurka;
-
 }
 
 Policko &Policko::setFigurka(Figurka *figurka) {
