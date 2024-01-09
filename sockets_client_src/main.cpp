@@ -79,10 +79,8 @@ int main() {
     // Hráč môže hodit kockou kliknutím na Enter
     // Jednoduchý while loop na opakované hody
     while (true) {
-
         char action = 'h';
         send(connectSocket, &action, sizeof(action), 0);
-
         // prijemDlzky
         size_t lengthMap;
         recv(connectSocket, reinterpret_cast<char*>(&lengthMap), sizeof(lengthMap), 0);
@@ -96,11 +94,8 @@ int main() {
         // Zobrazenie hracieho poľa
         std::cout << stavHry.hraciaDoska << std::endl; // Display the game board
 
-
         std::cout << "Stlacte Enter pre hod kockou..\n";
         std::cin.get();
-
-
         send(connectSocket, &action, sizeof(action), 0);     //posielanie na server - klient vykonal akciu
         recv(connectSocket, reinterpret_cast<char*>(&stavHry.naRade), sizeof(stavHry.naRade), 0);
 
@@ -111,12 +106,10 @@ int main() {
             std::cout <<"vy ste hrac "<< localInfo.playerID<<std::endl;
             continue;
         }
-
-
         size_t length;
         recv(connectSocket, reinterpret_cast<char*>(&length), sizeof(length), 0);
 
-        // // dlzkaString
+        // dlzkaString
         char* buffer = new char[length];
         recv(connectSocket, buffer, length, 0);
         stavHry.hraciaDoska = std::string(buffer, length);
@@ -124,18 +117,14 @@ int main() {
 
         // hodKockou
         recv(connectSocket, reinterpret_cast<char*>(&stavHry.hodKockou), sizeof(stavHry.hodKockou), 0);
-
         // jeKoniec
         recv(connectSocket, reinterpret_cast<char*>(&stavHry.jeKoniec), sizeof(stavHry.jeKoniec), 0);
-
         // meno vitaza
         if(stavHry.jeKoniec){
             recv(connectSocket, reinterpret_cast<char*>(&stavHry.vitaz), sizeof(stavHry.vitaz), 0);
         }
-
         // Zobrazenie informácií hráčovi
         std::cout << "Hodil si: " << stavHry.hodKockou << std::endl;
-
         // Zobrazenie hracieho poľa
         std::cout << stavHry.hraciaDoska << std::endl; // Display the game board
 
@@ -148,11 +137,9 @@ int main() {
         // dlzkaStringu
         size_t lengthRozhodnutie;
         recv(connectSocket, reinterpret_cast<char*>(&lengthRozhodnutie), sizeof(lengthRozhodnutie), 0);
-
         // dataString
         char* bufferRozhodnutie = new char[lengthRozhodnutie];
         recv(connectSocket, bufferRozhodnutie, lengthRozhodnutie, 0);
-
 
         if (lengthRozhodnutie <= 0) {
             std::cerr << "Stratene spojenie so serverom." << std::endl;
@@ -168,12 +155,9 @@ int main() {
         std::cout << std::endl;
         send(connectSocket, decision.c_str(), decision.size(), 0);
 
-
         Sleep(1000);  // Simulácia ďalšieho kola
     }
-
     closesocket(connectSocket);
     WSACleanup();
     return 0;
-
 }
